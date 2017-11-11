@@ -1,7 +1,5 @@
 # hellochess
 
-Not under active development anymore!
-
 Setup:
 Create a config directory inside of the project root. Inside that folder create a config.js file.
 
@@ -22,19 +20,20 @@ Place similar content as below inside config.js:
         }
     }
 
-npm install
+`npm install`
 
 
 Make sure you have MongoDB installed and run
-mongod
+
+`mongod`
 
 For development purposes I run the webpack dev server on localhost:8080
 to run the webpack dev server:
 
-npm start
+`npm start`
 
 The backend runs on localhost:3000 which I run as below:
 
-nodemon server/server.js
+`nodemon server/server.js`
 
-visit localhost:8080 and hope everything works!
+Visit localhost:8080 and hope everything works!
