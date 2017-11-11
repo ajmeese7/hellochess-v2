@@ -908,7 +908,7 @@ var FullhouseChess = function (fen) {
             if (color === swap_color(turn) && piece === VRKING) {
                 num_fake_kings++;
             }
-        } 
+        }
         return num_fake_kings === 2;
     }
 
@@ -1307,7 +1307,7 @@ var FullhouseChess = function (fen) {
 
     return {
         /***************************************************************************
-         * PUBLIC CONSTANTS (is there a better way to do this?)
+         * PUBLIC CONSTANTS (TODO: is there a better way to do this?)
          **************************************************************************/
         WHITE: WHITE,
         BLACK: BLACK,
@@ -1785,4 +1785,4 @@ var FullhouseChess = function (fen) {
  * environment */
 if (typeof exports !== 'undefined') exports.FullhouseChess = FullhouseChess;
 /* export Chess object for any RequireJS compatible environment */
-if (typeof define !== 'undefined') define( function () { return FullhouseChess;  });
+if (typeof define !== 'undefined') define( function () { return FullhouseChess; });
