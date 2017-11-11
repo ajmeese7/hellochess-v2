@@ -47,7 +47,7 @@ export default class Clock {
     }
     
     onTick(callback) {
-        if (typeof callback === 'function') {
+        if (typeof callback === "function") {
             this.tickCallbacks.push(callback);
         }
         return this;
@@ -75,7 +75,7 @@ export default class Clock {
     static parse(millis) {
         let minutes = Math.floor(millis / 60000);
         let seconds = ((millis % 60000) / 1000);
-        if(Math.floor(seconds) == 60) {
+        if (Math.floor(seconds) == 60) {
             minutes++;
             seconds = 0;
         }
