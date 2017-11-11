@@ -99,9 +99,9 @@ var FourChess = function (fen) {
     };
 
     function getKeyByValue(Object, value) {
-        for(var prop in Object) {
-            if(Object.hasOwnProperty(prop)) {
-                if(Object[prop] === value) {
+        for (var prop in Object) {
+            if (Object.hasOwnProperty(prop)) {
+                if (Object[prop] === value) {
                     return prop;
                 }
             }
@@ -109,7 +109,7 @@ var FourChess = function (fen) {
     }
 
     function clearBoard() {
-        for(var i = 0; i < BOARD.length; i++) {
+        for (var i = 0; i < BOARD.length; i++) {
             BOARD[i] = 0;
         }
     }
@@ -133,14 +133,16 @@ var FourChess = function (fen) {
                     fen += empty + ',';
                     empty = 0;
                 }
+
                 fen += (getKeyByValue(SQUARE_STATUS, BOARD[i])) + ',';
             }
 
 
-            if(i % 14 === 13) {
-                if(empty > 0) {
+            if (i % 14 === 13) {
+                if (empty > 0) {
                     fen += empty;
                 }
+
                 fen += '/';
                 empty = 0;
             }
@@ -148,7 +150,6 @@ var FourChess = function (fen) {
         }
 
         fen = fen.substring(0, fen.length - 1);
-
         fen = fen.replace(",/", "/")
         fen = fen.trim();
 
@@ -156,56 +157,56 @@ var FourChess = function (fen) {
         var otherInfo = '';
         otherInfo += TURN;
 
-        //white castling permissions
-        if(!white_moved_king) {
-            if(!white_moved_rt) {
+        // White castling permissions
+        if (!white_moved_king) {
+            if (!white_moved_rt) {
                 otherInfo += ' wr';
             }
-            if(!white_moved_lt) {
+            if (!white_moved_lt) {
                 otherInfo += ' wl';
             }
         }
-        //gold castling permissions
-        if(!gold_moved_king) {
-            if(!gold_moved_rt) {
+        // Gold castling permissions
+        if (!gold_moved_king) {
+            if (!gold_moved_rt) {
                 otherInfo += ' gr';
             }
-            if(!gold_moved_lt) {
+            if (!gold_moved_lt) {
                 otherInfo += ' gl';
             }
         }
-        //black castling permissions
-        if(!black_moved_king) {
-            if(!black_moved_rt) {
+        // Black castling permissions
+        if (!black_moved_king) {
+            if (!black_moved_rt) {
                 otherInfo += ' br';
             }
-            if(!black_moved_lt) {
+            if (!black_moved_lt) {
                 otherInfo += ' bl';
             }
         }
 
-        if(!red_moved_king) {
-            if(!red_moved_rt) {
+        if (!red_moved_king) {
+            if (!red_moved_rt) {
                 otherInfo += ' rr';
             }
-            if(!red_moved_lt) {
+            if (!red_moved_lt) {
                 otherInfo += ' rl';
             }
         }
 
-        if(whiteOut) {
+        if (whiteOut) {
             otherInfo += ' wo';
         }
 
-        if(goldOut) {
+        if (goldOut) {
             otherInfo += ' go';
         }
 
-        if(blackOut) {
+        if (blackOut) {
             otherInfo += ' bo';
         }
 
-        if(redOut) {
+        if (redOut) {
             otherInfo += ' ro';
         }
 
@@ -221,19 +222,19 @@ var FourChess = function (fen) {
 
         var board = new Array(196);
 
-        //Go through each rank
+        // Go through each rank
         var currentRow = 14;
         for(var i = 0; i < 14; i++) {
             var rank = ranks[i];
             var position = rank.split(',');
             var colIndex = 0;
-            //Go through each column
+            // Go through each column
             for(var j = 0; j < position.length; j++) {
                 var piece = position[j];
                 var isnum = /^\d+$/.test(piece);
 
-                //free space
-                if(isnum) {
+                // Free space
+                if (isnum) {
                     var emptySquares = parseInt(piece, 10);
                     //Make x amount of empty squares
                     for(var k = 0; k < emptySquares; k++) {
@@ -243,7 +244,7 @@ var FourChess = function (fen) {
 
                     colIndex += emptySquares;
                 }
-                //a piece is on the square
+                // A piece is on the square
                 else {
                     var square = FILES[colIndex] + currentRow;
                     board[SQUARES[square]] = SQUARE_STATUS[piece];
@@ -254,80 +255,80 @@ var FourChess = function (fen) {
             currentRow--;
         }
 
-        //parse other info
+        // Parse other info
         TURN = turnInfo.charAt(0);
         turnInfo = turnInfo.split('-');
 
-        //white
-        if(stringInStringArray('wr', turnInfo)) {
+        // White
+        if (stringInStringArray('wr', turnInfo)) {
             white_moved_rt = false;
             white_moved_king = false;
         } else {
             white_moved_rt = true;
         }
-        if(stringInStringArray('wl', turnInfo)) {
+        if (stringInStringArray('wl', turnInfo)) {
             white_moved_lt = false;
             white_moved_king = false;
         } else {
             white_moved_lt = true;
         }
 
-        //Gold
-        if(stringInStringArray('gr', turnInfo)) {
+        // Gold
+        if (stringInStringArray('gr', turnInfo)) {
             gold_moved_rt = false;
             gold_moved_king = false;
         } else {
             gold_moved_rt = true;
         }
-        if(stringInStringArray('gl', turnInfo)) {
+        if (stringInStringArray('gl', turnInfo)) {
             gold_moved_lt = false;
             gold_moved_king = false;
         } else {
             gold_moved_lt = true;
         }
 
-        //black
-        if(stringInStringArray('br', turnInfo)) {
+        // Black
+        if (stringInStringArray('br', turnInfo)) {
             black_moved_rt = false;
             black_moved_king = false;
         } else {
             black_moved_rt = true;
         }
-        if(stringInStringArray('bl', turnInfo)) {
+        if (stringInStringArray('bl', turnInfo)) {
             black_moved_lt = false;
             black_moved_king = false;
         } else {
             black_moved_lt = true;
         }
 
-        //red
-        if(stringInStringArray('rr', turnInfo)) {
+        // Red
+        if (stringInStringArray('rr', turnInfo)) {
             red_moved_rt = false;
             red_moved_king = false;
         } else {
             red_moved_rt = true;
         }
-        if(stringInStringArray('rl', turnInfo)) {
+        if (stringInStringArray('rl', turnInfo)) {
             red_moved_lt = false;
             red_moved_king = false;
         } else {
             red_moved_lt = true;
         }
 
-        //keep track of who is out
-        if(stringInStringArray('wo', turnInfo)) {
+        // Keep track of who is out
+        if (stringInStringArray('wo', turnInfo)) {
             whiteOut = true;
         }
 
-        if(stringInStringArray('go', turnInfo)) {
+        if (stringInStringArray('go', turnInfo)) {
             goldOut = true;
         }
 
-        if(stringInStringArray('bo', turnInfo)) {
+        if (stringInStringArray('bo', turnInfo)) {
             blackOut = true;
         }
 
-        if(stringInStringArray('ro', turnInfo)) {
+        if (stringInStringArray('ro', turnInfo)) {
             redOut = true;
         }
 
@@ -345,80 +346,83 @@ var FourChess = function (fen) {
             }
 
         }
+
         console.log(str);
     }
 
     function printBoardState( state) {
         var str = '';
-        for(var i = 0; i < state.length; i++) {
+        for (var i = 0; i < state.length; i++) {
             str += (state[i]) + ' ';
-            if(i % 14 === 13) {
+            if (i % 14 === 13) {
                 str += '\n';
             }
 
         }
+
         console.log(str);
     }
 
     function isSquareEmpty(square) {
-        if(BOARD[SQUARES[square]] === EMPTY) {
-            return true;
-        }
-        return false;
-    }
-
-    function whitePiece(piece) {
-        if (piece < 7 && piece !== 0) {
+        if (BOARD[SQUARES[square]] === EMPTY) {
             return true;
         }
 
         return false;
     }
 
-    function blackPiece(piece) {
-        if(piece > 6 && piece < 13) {
-            return true;
+    function pieceIsColor(color, piece) {
+        if (color === "white") {
+            if (piece < 7 && piece !== 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (color === "black") {
+            if (piece > 6 && piece < 13) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (color === "gold") {
+            if (piece > 12 && piece < 19) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (color === "red") {
+            if (piece > 18 && piece < 25) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        return false;
-    }
-
-    function goldPiece(piece) {
-        if(piece > 12 && piece < 19) {
-            return true;
-        }
-        return false;
-    }
-
-    function redPiece(piece ) {
-        if(piece > 18 && piece < 25) {
-            return true;
-        }
-        return false;
     }
 
     function sameArmySquares(piece1, piece2) {
-        if(whitePiece(piece1) && whitePiece(piece2)) {
+        if (pieceIsColor("white", piece1) && pieceIsColor("white", piece2)) {
             return true;
         }
 
-        if(blackPiece(piece1) && blackPiece(piece2)) {
+        if (pieceIsColor("black", piece1) && pieceIsColor("black", piece2)) {
             return true;
         }
 
-        if(goldPiece(piece1) && goldPiece(piece2)) {
+        if (pieceIsColor("gold", piece1) && pieceIsColor("gold", piece2)) {
             return true;
         }
 
-        if(redPiece(piece1) && redPiece(piece2)) {
+        if (pieceIsColor("red", piece1) && pieceIsColor("red", piece2)) {
             return true;
         }
+
         return false;
     }
 
     function isSquareEnemy(startSquare, destSquare) {
         var type1 = BOARD[SQUARES[startSquare]];
         var type2 = BOARD[SQUARES[destSquare]];
-        if(sameArmySquares(type1, type2)) {
+        if (sameArmySquares(type1, type2)) {
             return false;
         }
 
@@ -432,8 +436,8 @@ var FourChess = function (fen) {
                 'n14', 'm14', 'l14', 'n13', 'm13', 'l13', 'n12', 'm12', 'l12',  // top right
                 'n1', 'n2', 'n3', 'm1', 'm2', 'm3', 'l1', 'l2', 'l3'];      //bottom right
 
-        for(var i = 0; i < invalid_squares.length; i++) {
-            if(square == invalid_squares[i]) {
+        for (var i = 0; i < invalid_squares.length; i++) {
+            if (square == invalid_squares[i]) {
                 return false;
             }
         }
@@ -442,23 +446,24 @@ var FourChess = function (fen) {
     }
 
     function removeInvalidSquares(squares) {
-        if(squares == null) {
+        if (squares == null) {
             return;
         }
+
         var invalid_squares =[
                         'a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3',     //bottom left
                         'a14', 'b14', 'c14', 'a13', 'b13', 'c13', 'a12', 'b12', 'c12',   //top left
                         'n14', 'm14', 'l14', 'n13', 'm13', 'l13', 'n12', 'm12', 'l12',  // top right
                         'n1', 'n2', 'n3', 'm1', 'm2', 'm3', 'l1', 'l2', 'l3'];      //bottom right
-        for(var i = 0; i < squares.length; i++) {
-            for(var j = 0; j < invalid_squares.length; j++) {
-                if(typeof squares[i] == 'undefined')  {
+        for (var i = 0; i < squares.length; i++) {
+            for (var j = 0; j < invalid_squares.length; j++) {
+                if (typeof squares[i] == 'undefined')  {
                     continue;
                 }
-                if(squares[i].to == invalid_squares[j]) {
+                if (squares[i].to == invalid_squares[j]) {
                     squares.splice(i, 1);
                     i = 0;
-                } else if(squares[i].to.search(/^[a-n][1-9][0-4]?$/) === -1) {
+                } else if (squares[i].to.search(/^[a-n][1-9][0-4]?$/) === -1) {
                     squares.splice(i, 1);
                     i = 0;
                 }
@@ -470,11 +475,12 @@ var FourChess = function (fen) {
     }
 
     function generateCastleMoves(toSquare, rank, alpha, color) {
-        switch(color) {
+        switch (color) {
             case 'w':
-                if(white_moved_king || inCheck()) {
+                if (white_moved_king || inCheck()) {
                     return;
                 }
+
                 var square1Right = String.fromCharCode(alpha.charCodeAt(0) + 1) + rank;
                 var square2Right = String.fromCharCode(alpha.charCodeAt(0) + 2) + rank;
 
@@ -482,18 +488,20 @@ var FourChess = function (fen) {
                 var square2Left = String.fromCharCode(alpha.charCodeAt(0) - 2) + rank;
                 var square3Left = String.fromCharCode(alpha.charCodeAt(0) - 3) + rank;
 
-                if(isSquareEmpty(square1Right) && isSquareEmpty(square2Right)
+                if (isSquareEmpty(square1Right) && isSquareEmpty(square2Right)
                     && !white_moved_rt) {
                     toSquare.push( {'to': square2Right, 'castlerw': true});
-                } else if(isSquareEmpty(square1Left) && isSquareEmpty(square2Left)
+                } else if (isSquareEmpty(square1Left) && isSquareEmpty(square2Left)
                         && isSquareEmpty(square3Left) && !white_moved_lt) {
                     toSquare.push( {'to': square2Left, 'castlelw': true});
                 }
+
                 break;
             case 'g':
-                if(gold_moved_king || inCheck()) {
+                if (gold_moved_king || inCheck()) {
                     return;
                 }
+
                 var square1Right = alpha + (rank-1);
                 var square2Right = alpha + (rank-2);
                 var square3Right = alpha + (rank-3);
@@ -501,17 +509,17 @@ var FourChess = function (fen) {
                 var square1Left = alpha + (rank+1);
                 var square2Left = alpha + (rank+2);
 
-                if(isSquareEmpty(square1Right) && isSquareEmpty(square2Right)
+                if (isSquareEmpty(square1Right) && isSquareEmpty(square2Right)
                     && isSquareEmpty(square3Right) && !gold_moved_rt) {
                         toSquare.push( {'to': square2Right, 'castlerg': true});
-                } else if(isSquareEmpty(square1Left) && isSquareEmpty(square2Left)
+                } else if (isSquareEmpty(square1Left) && isSquareEmpty(square2Left)
                     && !gold_moved_lt) {
                         toSquare.push( {'to': square2Left, 'castlelg': true});
                 }
 
                 break;
             case 'b':
-                if(black_moved_king || inCheck()) {
+                if (black_moved_king || inCheck()) {
                     return;
                 }
 
@@ -522,19 +530,20 @@ var FourChess = function (fen) {
                 var square2Left = String.fromCharCode(alpha.charCodeAt(0) + 2) + rank;
                 var square3Left = String.fromCharCode(alpha.charCodeAt(0) + 3) + rank;
 
-                if(isSquareEmpty(square1Right) && isSquareEmpty(square2Right)
+                if (isSquareEmpty(square1Right) && isSquareEmpty(square2Right)
                     && !black_moved_rt) {
                         toSquare.push( {'to': square2Right, 'castlerb': true});
-                } else if(isSquareEmpty(square1Left) && isSquareEmpty(square2Left)
+                } else if (isSquareEmpty(square1Left) && isSquareEmpty(square2Left)
                     && isSquareEmpty(square3Left) && !black_moved_lt) {
                         toSquare.push( {'to': square2Left, 'castlelb': true});
                 }
-                break;
 
+                break;
             case 'r':
-                if(red_moved_king || inCheck()) {
+                if (red_moved_king || inCheck()) {
                     return;
                 }
+
                 var square1Right = alpha + (rank+1);
                 var square2Right = alpha + (rank+2);
                 var square3Right = alpha + (rank+3);
@@ -542,13 +551,14 @@ var FourChess = function (fen) {
                 var square1Left = alpha + (rank-1);
                 var square2Left = alpha + (rank-2);
 
-                if(isSquareEmpty(square1Right) && isSquareEmpty(square2Right)
+                if (isSquareEmpty(square1Right) && isSquareEmpty(square2Right)
                     && isSquareEmpty(square3Right) && !red_moved_rt) {
                         toSquare.push( {'to': square2Right, 'castlerr': true});
-                } else if(isSquareEmpty(square1Left) && isSquareEmpty(square2Left)
+                } else if (isSquareEmpty(square1Left) && isSquareEmpty(square2Left)
                     && !red_moved_lt) {
                         toSquare.push( {'to': square2Left, 'castlelr': true});
                 }
+
                 break;
         }
     }
@@ -558,14 +568,15 @@ var FourChess = function (fen) {
         //count the number of squares left before a piece hit
         for (var i = 1; i < posSquaresInRank + 1; i++) {
             var square = alpha + (rank + i);
-            if(isSquareEmpty(square)) {
+            if (isSquareEmpty(square)) {
                 toSquare.push({'to': square});
             } else {
                 var startSquare = alpha + rank;
                 if(isSquareEnemy(startSquare, square)) {
                     toSquare.push({'to': square});
                 }
-                break;  //a piece was found on this square
+
+                break;  // A piece was found on this square
             }
         }
 
@@ -576,9 +587,10 @@ var FourChess = function (fen) {
                 toSquare.push({'to': square});
             } else {
                 var startSquare = alpha + rank;
-                if(isSquareEnemy(startSquare, square)) {
+                if (isSquareEnemy(startSquare, square)) {
                     toSquare.push({'to': square});
                 }
+
                 break;
             }
         }
@@ -586,29 +598,31 @@ var FourChess = function (fen) {
 
     function generateFileMoves(toSquare, rank, alpha, king) {
         var posSquaresInFile = (king) ? 1 : 'n'.charCodeAt(0) - alpha.charCodeAt(0);
-        for(var i = 1; i < posSquaresInFile + 1; i++) {
+        for (var i = 1; i < posSquaresInFile + 1; i++) {
             var square = String.fromCharCode(alpha.charCodeAt(0) + i) + rank;
-            if(isSquareEmpty(square)) {
+            if (isSquareEmpty(square)) {
                 toSquare.push({'to': square});
             } else {
                 var startSquare = alpha + rank;
-                if(isSquareEnemy(startSquare, square)) {
+                if (isSquareEnemy(startSquare, square)) {
                     toSquare.push({'to': square});
                 }
+
                 break;
             }
         }
 
         var negSquaresInFile = (king) ? 1 : alpha.charCodeAt(0) - 'a'.charCodeAt(0);
-        for(var i = 1; i < negSquaresInFile + 1; i++) {
+        for (var i = 1; i < negSquaresInFile + 1; i++) {
             var square = String.fromCharCode(alpha.charCodeAt(0) - i) + rank;
-            if(isSquareEmpty(square)) {
+            if (isSquareEmpty(square)) {
                 toSquare.push({'to': square});
             } else {
                 var startSquare = alpha + rank;
-                if(isSquareEnemy(startSquare, square)) {
+                if (isSquareEnemy(startSquare, square)) {
                     toSquare.push({'to': square});
                 }
+
                 break;
             }
         }
@@ -616,69 +630,69 @@ var FourChess = function (fen) {
 
     function generateDiagnolMoves(toSquare, rank, alpha, king) {
         var posSquaresInDiagnol = (king) ? 1 : 'n'.charCodeAt(0) - alpha.charCodeAt(0);
-        for(var i = 1; i < posSquaresInDiagnol + 1; i++) {
+        for (var i = 1; i < posSquaresInDiagnol + 1; i++) {
             var square = String.fromCharCode(alpha.charCodeAt(0) + i) + (rank + i);
-            if(!isSquareValid(square)) {
+            if (!isSquareValid(square)) {
                 break;
-            }
-            else if(isSquareEmpty(square)) {
+            } else if(isSquareEmpty(square)) {
                 toSquare.push({'to': square});
             } else {
                 var startSquare = alpha + rank;
-                if(isSquareEnemy(startSquare, square)) {
+                if (isSquareEnemy(startSquare, square)) {
                     toSquare.push({'to': square});
                 }
+
                 break;
             }
         }
 
         var negSquaresInDiagnol = (king) ? 1 : alpha.charCodeAt(0) - 'a'.charCodeAt(0);
-        for(var i = 1; i < negSquaresInDiagnol + 1; i++) {
+        for (var i = 1; i < negSquaresInDiagnol + 1; i++) {
             var square = String.fromCharCode(alpha.charCodeAt(0) - i) + (rank + i);
-            if(!isSquareValid(square)) {
+            if (!isSquareValid(square)) {
                 break;
-            }
-            else if(isSquareEmpty(square)) {
+            } else if (isSquareEmpty(square)) {
                 toSquare.push({'to': square});
             } else {
                 var startSquare = alpha + rank;
                 if(isSquareEnemy(startSquare, square)) {
                     toSquare.push({'to': square});
                 }
+
                 break;
             }
         }
 
         posSquaresInDiagnol = (king) ? 1 : 'n'.charCodeAt(0) - alpha.charCodeAt(0);
-        for(var i = 1; i < posSquaresInDiagnol + 1; i++) {
+        for (var i = 1; i < posSquaresInDiagnol + 1; i++) {
             var square = String.fromCharCode(alpha.charCodeAt(0) + i) + (rank - i);
-            if(!isSquareValid(square)) {
+            if (!isSquareValid(square)) {
                 break;
-            }
-            else if(isSquareEmpty(square)) {
+            } else if (isSquareEmpty(square)) {
                 toSquare.push({'to': square});
             } else {
                 var startSquare = alpha + rank;
-                if(isSquareEnemy(startSquare, square)) {
+                if (isSquareEnemy(startSquare, square)) {
                     toSquare.push({'to': square});
                 }
+
                 break;
             }
         }
 
         negSquaresInDiagnol = (king) ? 1 : alpha.charCodeAt(0) - 'a'.charCodeAt(0);
-        for(var i = 1; i < negSquaresInDiagnol + 1; i++) {
+        for (var i = 1; i < negSquaresInDiagnol + 1; i++) {
             var square = String.fromCharCode(alpha.charCodeAt(0) - i) + (rank - i);
-            if(!isSquareValid(square)) {
+            if (!isSquareValid(square)) {
                 break;
-            }
-            else if(isSquareEmpty(square)) {
+            } else if (isSquareEmpty(square)) {
                 toSquare.push({'to': square});
             } else {
                 var startSquare = alpha + rank;
                 if(isSquareEnemy(startSquare, square)) {
                     toSquare.push({'to': square});
                 }
+
                 break;
             }
         }
@@ -691,7 +705,7 @@ var FourChess = function (fen) {
         switch (piece) {
             case SQUARE_STATUS['wP']:
                 if (rank === (RANK_13 + 1)) {
-                    if(isSquareEmpty(alpha + (rank + 1))) {
+                    if (isSquareEmpty(alpha + (rank + 1))) {
                         squaresToCheck.push(alpha + (rank + 2));
                     }
                     //TODO empassant, maybe not?
@@ -701,24 +715,24 @@ var FourChess = function (fen) {
                 var cap1 = String.fromCharCode(alpha.charCodeAt(0) + 1) + (rank + 1);
                 var cap2 = String.fromCharCode(alpha.charCodeAt(0) - 1) + (rank + 1);
 
-                if(isSquareEnemy((alpha + rank), cap1) && !isSquareEmpty(cap1)) {
+                if (isSquareEnemy((alpha + rank), cap1) && !isSquareEmpty(cap1)) {
                     toSquare.push({'to': cap1});
                 }
-                if(isSquareEnemy((alpha + rank), cap2) && !isSquareEmpty(cap2)) {
+                if (isSquareEnemy((alpha + rank), cap2) && !isSquareEmpty(cap2)) {
                     toSquare.push({'to': cap2});
                 }
 
                 squaresToCheck.push(alpha + (rank + 1));
-                for(var i = 0; i < squaresToCheck.length; i++) {
+                for (var i = 0; i < squaresToCheck.length; i++) {
                     var square = squaresToCheck[i];
-                    if(isSquareEmpty(square)) {
+                    if (isSquareEmpty(square)) {
                         toSquare.push({'to': square});
                     }
                 }
                 break;
             case SQUARE_STATUS['bP']:
                 if (rank === (RANK_2 + 1)) {
-                    if(isSquareEmpty(alpha + (rank - 1))) {
+                    if (isSquareEmpty(alpha + (rank - 1))) {
                         squaresToCheck.push(alpha + (rank - 2));
                     }
                 }
@@ -727,25 +741,25 @@ var FourChess = function (fen) {
                 var cap1 = String.fromCharCode(alpha.charCodeAt(0) + 1) + (rank - 1);
                 var cap2 = String.fromCharCode(alpha.charCodeAt(0) - 1) + (rank - 1);
 
-                if(isSquareEnemy((alpha + rank), cap1) && !isSquareEmpty(cap1)) {
+                if (isSquareEnemy((alpha + rank), cap1) && !isSquareEmpty(cap1)) {
                     toSquare.push({'to': cap1});
                 }
-                if(isSquareEnemy((alpha + rank), cap2) && !isSquareEmpty(cap2)) {
+                if (isSquareEnemy((alpha + rank), cap2) && !isSquareEmpty(cap2)) {
                     toSquare.push({'to': cap2});
                 }
 
                 squaresToCheck.push(alpha + (rank - 1));
-                for(var i = 0; i < squaresToCheck.length; i++) {
+                for (var i = 0; i < squaresToCheck.length; i++) {
                     var square = squaresToCheck[i];
-                    if(isSquareEmpty(square)) {
+                    if (isSquareEmpty(square)) {
                         toSquare.push({'to': square});
                     }
                 }
                 break;
             case SQUARE_STATUS['gP']:
 
-                if(alpha === 'b') {
-                    if(isSquareEmpty('d' + rank) && isSquareEmpty('c' + rank)) {
+                if (alpha === 'b') {
+                    if (isSquareEmpty('d' + rank) && isSquareEmpty('c' + rank)) {
                         squaresToCheck.push('d' + rank);
                     }
                 }
@@ -754,25 +768,25 @@ var FourChess = function (fen) {
                 var cap1 = String.fromCharCode(alpha.charCodeAt(0) + 1) + (rank - 1);
                 var cap2 = String.fromCharCode(alpha.charCodeAt(0) + 1) + (rank + 1);
 
-                if(isSquareEnemy((alpha + rank), cap1) && !isSquareEmpty(cap1)) {
+                if (isSquareEnemy((alpha + rank), cap1) && !isSquareEmpty(cap1)) {
                     toSquare.push({'to': cap1});
                 }
-                if(isSquareEnemy((alpha + rank), cap2) && !isSquareEmpty(cap2)) {
+                if (isSquareEnemy((alpha + rank), cap2) && !isSquareEmpty(cap2)) {
                     toSquare.push({'to': cap2});
                 }
 
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) + 1) + rank);
 
-                for(var i = 0; i < squaresToCheck.length; i++) {
+                for (var i = 0; i < squaresToCheck.length; i++) {
                     var square = squaresToCheck[i];
-                    if(isSquareEmpty(square)) {
+                    if (isSquareEmpty(square)) {
                         toSquare.push({'to': square});
                     }
                 }
                 break;
             case SQUARE_STATUS['rP']:
-                if(alpha === 'm') {
-                    if(isSquareEmpty('k' + rank) && isSquareEmpty('l' + rank)) {
+                if (alpha === 'm') {
+                    if (isSquareEmpty('k' + rank) && isSquareEmpty('l' + rank)) {
                         squaresToCheck.push('k' + rank);
                     }
                 }
@@ -781,17 +795,17 @@ var FourChess = function (fen) {
                 var cap1 = String.fromCharCode(alpha.charCodeAt(0) - 1) + (rank - 1);
                 var cap2 = String.fromCharCode(alpha.charCodeAt(0) - 1) + (rank + 1);
 
-                if(isSquareEnemy((alpha + rank), cap1) && !isSquareEmpty(cap1)) {
+                if (isSquareEnemy((alpha + rank), cap1) && !isSquareEmpty(cap1)) {
                     toSquare.push({'to': cap1});
                 }
-                if(isSquareEnemy((alpha + rank), cap2) && !isSquareEmpty(cap2)) {
+                if (isSquareEnemy((alpha + rank), cap2) && !isSquareEmpty(cap2)) {
                     toSquare.push({'to': cap2});
                 }
 
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) - 1) + rank);
-                for(var i = 0; i < squaresToCheck.length; i++) {
+                for (var i = 0; i < squaresToCheck.length; i++) {
                     var square = squaresToCheck[i];
-                    if(isSquareEmpty(square)) {
+                    if (isSquareEmpty(square)) {
                         toSquare.push({'to': square});
                     }
                 }
@@ -809,15 +823,17 @@ var FourChess = function (fen) {
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) - 2) + (rank - 1));
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) + 1) + (rank - 2));
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) - 1) + (rank - 2));
-                for(var i = 0; i < squaresToCheck.length; i++) {
+
+                for (var i = 0; i < squaresToCheck.length; i++) {
                     var square = squaresToCheck[i];
-                    if(isSquareEmpty(square) && isSquareValid(square)) {
+                    if (isSquareEmpty(square) && isSquareValid(square)) {
                         toSquare.push({'to': square});
                     }
-                    else if(isSquareEnemy(alpha + rank, square)) {
+                    else if (isSquareEnemy(alpha + rank, square)) {
                         toSquare.push({'to': square});
                     }
                 }
+
                 break;
             case SQUARE_STATUS['wB']:
                 generateDiagnolMoves(toSquare, rank, alpha, false);
@@ -848,15 +864,17 @@ var FourChess = function (fen) {
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) - 2) + (rank - 1));
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) + 1) + (rank - 2));
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) - 1) + (rank - 2));
-                for(var i = 0; i < squaresToCheck.length; i++) {
+
+                for (var i = 0; i < squaresToCheck.length; i++) {
                     var square = squaresToCheck[i];
-                    if(isSquareEmpty(square) && isSquareValid(square)) {
+                    if (isSquareEmpty(square) && isSquareValid(square)) {
                         toSquare.push({'to': square});
                     }
-                    else if(isSquareEnemy(alpha + rank, square)) {
+                    else if (isSquareEnemy(alpha + rank, square)) {
                         toSquare.push({'to': square});
                     }
                 }
+
                 break;
             case SQUARE_STATUS['bB']:
                 generateDiagnolMoves(toSquare, rank, alpha, false);
@@ -887,14 +905,16 @@ var FourChess = function (fen) {
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) - 2) + (rank - 1));
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) + 1) + (rank - 2));
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) - 1) + (rank - 2));
-                for(var i = 0; i < squaresToCheck.length; i++) {
+
+                for (var i = 0; i < squaresToCheck.length; i++) {
                     var square = squaresToCheck[i];
-                    if(isSquareEmpty(square) && isSquareValid(square)) {
+                    if (isSquareEmpty(square) && isSquareValid(square)) {
                         toSquare.push({'to': square});
-                    } else if(isSquareEnemy(alpha + rank, square)) {
+                    } else if (isSquareEnemy(alpha + rank, square)) {
                         toSquare.push({'to': square});
                     }
                 }
+
                 break;
             case SQUARE_STATUS['gB']:
                 generateDiagnolMoves(toSquare, rank, alpha, false);
@@ -925,11 +945,11 @@ var FourChess = function (fen) {
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) - 2) + (rank - 1));
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) + 1) + (rank - 2));
                 squaresToCheck.push(String.fromCharCode(alpha.charCodeAt(0) - 1) + (rank - 2));
-                for(var i = 0; i < squaresToCheck.length; i++) {
+                for (var i = 0; i < squaresToCheck.length; i++) {
                     var square = squaresToCheck[i];
-                    if(isSquareEmpty(square) && isSquareValid(square)) {
+                    if (isSquareEmpty(square) && isSquareValid(square)) {
                         toSquare.push({'to': square});
-                    } else if(isSquareEnemy(alpha + rank, square)) {
+                    } else if (isSquareEnemy(alpha + rank, square)) {
                         toSquare.push({'to': square});
                     }
                 }
@@ -951,22 +971,24 @@ var FourChess = function (fen) {
                 }
                 break;
         }
-        if(toSquare.length == 0) {
+
+        if (toSquare.length == 0) {
             return null;
         } else {
             toSquare = removeInvalidSquares(toSquare);
-            if(toSquare.length == 0) {
+            if (toSquare.length == 0) {
                 return null;
             }
         }
+
         return toSquare;
     }
 
     function generateMovesForSquare(square, castling = true) {
         var alpha = square.charAt(0);
-        if(square.length === 2)
+        if (square.length === 2)
             var rank = parseInt(square.charAt(1), 10);
-        else if(square.length === 3) {
+        else if (square.length === 3) {
             var rank = parseInt(square.charAt(1) + square.charAt(2), 10);
         }
 
@@ -981,9 +1003,9 @@ var FourChess = function (fen) {
 
     function kickWhiteOutOfGame() {
         var squares = [];
-        for(var i = 0; i < BOARD.length; i++) {
+        for (var i = 0; i < BOARD.length; i++) {
             var piece = BOARD[i];
-            if(whitePiece(piece)) {
+            if (pieceIsColor("white", piece)) {
                 BOARD[i] = EMPTY;
                 squares.push(calculateSquareFromIndex(i));
             }
@@ -995,65 +1017,68 @@ var FourChess = function (fen) {
 
     function kickBlackOutOfGame() {
         var squares = [];
-        for(var i = 0; i < BOARD.length; i++) {
+        for (var i = 0; i < BOARD.length; i++) {
             var piece = BOARD[i];
-            if(blackPiece(piece)) {
+            if (pieceIsColor("black", piece)) {
                 BOARD[i] = EMPTY;
                 squares.push(calculateSquareFromIndex(i));
             }
         }
+
         blackOut = true;
         return squares;
     }
 
     function kickGoldOutOfGame() {
         var squares = [];
-        for(var i = 0; i < BOARD.length; i++) {
+        for (var i = 0; i < BOARD.length; i++) {
             var piece = BOARD[i];
-            if(goldPiece(piece)) {
+            if (pieceIsColor("gold", piece)) {
                 BOARD[i] = EMPTY;
                 squares.push(calculateSquareFromIndex(i));
             }
         };
+
         goldOut = true;
         return squares;
     }
 
     function kickRedOutOfGame() {
         var squares = [];
-        for(var i = 0; i < BOARD.length; i++) {
+        for (var i = 0; i < BOARD.length; i++) {
             var piece = BOARD[i];
-            if(redPiece(piece)) {
+            if (pieceIsColor("red", piece)) {
                 BOARD[i] = EMPTY;
                 squares.push(calculateSquareFromIndex(i));
             }
         }
+
         redOut = true;
         return squares;
     }
 
     function inCheckMate() {
         var squares = [];
-        for(var i = 0; i < BOARD.length; i++) {
+        for (var i = 0; i < BOARD.length; i++) {
             var piece = BOARD[i];
-            switch(TURN) {
+            switch (TURN) {
                 case WHITE:
-                    if(whitePiece(piece)) {
+                    if (pieceIsColor("white", piece)) {
                         squares.push(calculateSquareFromIndex(i));
                     }
                     break;
                 case BLACK:
-                    if(blackPiece(piece)) {
+                    if (pieceIsColor("black", piece)) {
                         squares.push(calculateSquareFromIndex(i));
                     }
                     break;
                 case GOLD:
-                    if(goldPiece(piece)) {
+                    if (pieceIsColor("gold", piece)) {
                         squares.push(calculateSquareFromIndex(i));
                     }
                     break;
                 case RED:
-                    if(redPiece(piece)) {
+                    if (pieceIsColor("red", piece)) {
                         squares.push(calculateSquareFromIndex(i));
                     }
                     break;
@@ -1061,14 +1086,14 @@ var FourChess = function (fen) {
         }
 
         var invalid_squares =[
-            'a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3',     //bottom left
-            'a14', 'b14', 'c14', 'a13', 'b13', 'c13', 'a12', 'b12', 'c12',   //top left
-            'n14', 'm14', 'l14', 'n13', 'm13', 'l13', 'n12', 'm12', 'l12',  // top right
-            'n1', 'n2', 'n3', 'm1', 'm2', 'm3', 'l1', 'l2', 'l3'];      //bottom right
+            'a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3',          // bottom left
+            'a14', 'b14', 'c14', 'a13', 'b13', 'c13', 'a12', 'b12', 'c12', // top left
+            'n14', 'm14', 'l14', 'n13', 'm13', 'l13', 'n12', 'm12', 'l12', // top right
+            'n1', 'n2', 'n3', 'm1', 'm2', 'm3', 'l1', 'l2', 'l3'];         // bottom right
 
-        for(var i = 0; i < squares.length; i++) {
-            for(var j = 0; j < invalid_squares.length; j++) {
-                if(squares[i].to == invalid_squares[j]) {
+        for (var i = 0; i < squares.length; i++) {
+            for (var j = 0; j < invalid_squares.length; j++) {
+                if (squares[i].to == invalid_squares[j]) {
                     squares.splice(i, 1);
                     i = 0;
                 }
@@ -1076,24 +1101,22 @@ var FourChess = function (fen) {
         }
 
         var BOARD_COPY = BOARD.slice();
-        for(var i = 0; i < squares.length; i++) {
+        for (var i = 0; i < squares.length; i++) {
             var moves = generateMovesForSquare(squares[i]);
-            if(moves !== null) {
-                for(var j = 0; j < moves.length; j++) {
+            if (moves !== null) {
+                for (var j = 0; j < moves.length; j++) {
                     var square = moves[j].to;
 
-                    //Make the move
+                    // Makes the move
                     var piece = BOARD[SQUARES[squares[i]]];
                     BOARD[SQUARES[squares[i]]] = EMPTY;
                     BOARD[SQUARES[square]] = piece;
 
-                    var checked = inCheck();
-
-                    if(!checked) {
-                        BOARD = BOARD_COPY.slice(); //Reset the board
+                    if (!inCheck()) {
+                        BOARD = BOARD_COPY.slice(); // Resets the board
                         return false;
                     }
-                    BOARD = BOARD_COPY.slice(); //Reset the board
+                    BOARD = BOARD_COPY.slice(); // Resets the board
                 }
             }
         }
@@ -1104,7 +1127,7 @@ var FourChess = function (fen) {
 
     function inCheck(color) {
         var currentKing = "";
-        switch(TURN) {
+        switch (TURN) {
             case 'w':
                 currentKing = 'wK';
                 break;
@@ -1118,22 +1141,23 @@ var FourChess = function (fen) {
                 currentKing = 'rK';
                 break;
         }
+
         //Find the king's square
         var kingSquare;
-        for(var i = 0; i < BOARD.length; i++) {
-            if(BOARD[i] == SQUARE_STATUS[currentKing]) {
+        for (var i = 0; i < BOARD.length; i++) {
+            if (BOARD[i] == SQUARE_STATUS[currentKing]) {
                 kingSquare = getKeyByValue(SQUARES, i);
             }
         }
 
-        for(var i = 0; i < BOARD.length; i++) {
+        for (var i = 0; i < BOARD.length; i++) {
             var currentSquare = getKeyByValue(SQUARES, i);
             var moves = generateMovesForSquare(currentSquare, false);
-            if(moves == null) {
+            if (moves == null) {
                 continue;
             }
-            for(var j = 0; j < moves.length; j++) {
-                if(moves[j].to == kingSquare) {
+            for (var j = 0; j < moves.length; j++) {
+                if (moves[j].to == kingSquare) {
                     return true;
                 }
             }
@@ -1144,22 +1168,22 @@ var FourChess = function (fen) {
 
     function insufficentMaterial(color) {
         var count = 0;
-        for(var i = 0; i < BOARD.length; i++) {
+        for (var i = 0; i < BOARD.length; i++) {
             var piece = BOARD[i];
-            switch(color) {
+            switch (color) {
                 case WHITE:
-                    if (whitePiece(piece)) { count++; }
+                    if (pieceIsColor("white", piece)) { count++; }
                 case BLACK:
-                    if (blackPiece(piece)) { count++; }
+                    if (pieceIsColor("black", piece)) { count++; }
                 case GOLD:
-                    if (goldPiece(piece)) { count++; }
+                    if (pieceIsColor("gold", piece)) { count++; }
                 case RED:
-                    if (redPiece(piece)) { count++; }
+                    if (pieceIsColor("red", piece)) { count++; }
                     break;
             }
 
         }
-        if(count > 1) {
+        if (count > 1) {
             return false;
         }
 
@@ -1168,20 +1192,20 @@ var FourChess = function (fen) {
 
     function gameOver() {
         var counter = 0;
-        if(whiteOut || insufficentMaterial(WHITE)) {
+        if (whiteOut || insufficentMaterial(WHITE)) {
             counter++;
         }
-        if(goldOut || insufficentMaterial(GOLD)) {
+        if (goldOut || insufficentMaterial(GOLD)) {
             counter++;
         }
-        if(blackOut || insufficentMaterial(BLACK)) {
+        if (blackOut || insufficentMaterial(BLACK)) {
             counter++;
         }
-        if(redOut || insufficentMaterial(RED)) {
+        if (redOut || insufficentMaterial(RED)) {
             counter++;
         }
 
-        if(counter > 2) {
+        if (counter > 2) {
             return true;
         }
 
@@ -1193,8 +1217,8 @@ var FourChess = function (fen) {
         var newTurnSet = false;
 
         //TODO FIX this! IT's a really crappy way of doing this
-        if(!gameOver()) {
-            while (!newTurnSet ) {
+        if (!gameOver()) {
+            while (!newTurnSet) {
                 switch (TURN) {
                     case WHITE:
                         TURN = GOLD;
@@ -1222,8 +1246,8 @@ var FourChess = function (fen) {
         var newTurnSet = false;
 
         //TODO FIX this! IT's a really crappy way of doing this
-        if(!gameOver()) {
-            while (!newTurnSet ) {
+        if (!gameOver()) {
+            while (!newTurnSet) {
                 switch (TURN) {
                     case WHITE:
                         TURN = GOLD;
@@ -1246,57 +1270,25 @@ var FourChess = function (fen) {
         }
     }
 
-    function getAllWhiteSquares() {
-        var squares = [];
-        for(var i = 0; i < BOARD.length; i++) {
-            var piece = BOARD[i];
-            if(whitePiece(piece)) {
-                squares.push(calculateSquareFromIndex(i));
-            }
-        }
+    function getAllSquares(color) {
+      var squares = [];
+      for (var i = 0; i < BOARD.length; i++) {
+          var piece = BOARD[i];
+          if (pieceIsColor(color, piece)) {
+              squares.push(calculateSquareFromIndex(i));
+          }
+      }
 
-        return squares;
+      return squares;
     }
 
-    function getAllBlackSquares() {
-        var squares = [];
-        for(var i = 0; i < BOARD.length; i++) {
-            var piece = BOARD[i];
-            if(blackPiece(piece)) {
-                squares.push(calculateSquareFromIndex(i));
-            }
-        }
-        return squares;
-    }
-
-    function getAllGoldSquares() {
-        var squares = [];
-        for(var i = 0; i < BOARD.length; i++) {
-            var piece = BOARD[i];
-            if(goldPiece(piece)) {
-                squares.push(calculateSquareFromIndex(i));
-            }
-        }
-        return squares;
-    }
-
-    function getAllRedSquares() {
-        var squares = [];
-        for(var i = 0; i < BOARD.length; i++) {
-            var piece = BOARD[i];
-            if(redPiece(piece)) {
-                squares.push(calculateSquareFromIndex(i));
-            }
-        }
-        return squares;
-    }
-
+    // TODO: Condense these 4 functions into one?
     function evalWhite(state) {
         var sum = 0;
-        for(var i = 0; i < state.length; i++) {
+        for (var i = 0; i < state.length; i++) {
             var piece = state[i];
-            if(whitePiece(piece)) {
-                switch(piece) {
+            if (pieceIsColor("white", piece)) {
+                switch (piece) {
                     case SQUARE_STATUS['wP']:
                         sum+=1;
                         break;
@@ -1321,10 +1313,10 @@ var FourChess = function (fen) {
 
     function evalBlack(state) {
         var sum = 0;
-        for(var i = 0; i < state.length; i++) {
+        for (var i = 0; i < state.length; i++) {
             var piece = state[i];
-            if(blackPiece(piece)) {
-                switch(piece) {
+            if (pieceIsColor("black", piece)) {
+                switch (piece) {
                     case SQUARE_STATUS['bP']:
                         sum+=1;
                         break;
@@ -1348,10 +1340,10 @@ var FourChess = function (fen) {
 
     function evalGold(state) {
         var sum = 0;
-        for(var i = 0; i < state.length; i++) {
+        for (var i = 0; i < state.length; i++) {
             var piece = state[i];
-            if(goldPiece(piece)) {
-                switch(piece) {
+            if (pieceIsColor("gold", piece)) {
+                switch (piece) {
                     case SQUARE_STATUS['gP']:
                         sum+=1;
                         break;
@@ -1375,10 +1367,10 @@ var FourChess = function (fen) {
 
     function evalRed(state) {
         var sum = 0;
-        for(var i = 0; i < state.length; i++) {
+        for (var i = 0; i < state.length; i++) {
             var piece = state[i];
-            if(redPiece(piece)) {
-                switch(piece) {
+            if (pieceIsColor("red", piece)) {
+                switch (piece) {
                     case SQUARE_STATUS['rP']:
                         sum+=1;
                         break;
@@ -1398,26 +1390,6 @@ var FourChess = function (fen) {
             }
         }
         return sum;
-    }
-
-    function attackedSquared(state, TURN) {
-        // for(var i = 0 ;i < state.length; i++) {
-        //     switch(TURN) {
-        //         case 'w':
-
-        //             break;
-        //         case 'b':
-
-        //             break;
-        //         case 'g':
-
-        //             break;
-        //         case 'r':
-
-        //             break;
-        //     }
-        // }
-
     }
 
     function shuffle(array) {
@@ -1441,7 +1413,7 @@ var FourChess = function (fen) {
 
     function evaluateState(state) {
         var points = 0;
-        switch(TURN) {
+        switch (TURN) {
             case 'w':
                 points = evalWhite(state);
                 points -= evalBlack(state);
@@ -1468,8 +1440,6 @@ var FourChess = function (fen) {
                 break;
         }
 
-        // points += attackedSquared(state, TURN);
-
         return points;
     }
 
@@ -1479,23 +1449,19 @@ var FourChess = function (fen) {
 
         var status = new Object();
 
-        //Was a king taken?
-        switch(board[SQUARES[move.to]]) {
+        // Was a king taken?
+        switch (board[SQUARES[move.to]]) {
             case SQUARE_STATUS['wK']:
                 board[SQUARES[move.to]] = piece;
-                // status.opponentOut = kickWhiteOutOfGame();
                 break;
             case SQUARE_STATUS['bK']:
                 board[SQUARES[move.to]] = piece;
-                // status.opponentOut = kickBlackOutOfGame();
                 break;
             case SQUARE_STATUS['gK']:
                 board[SQUARES[move.to]] = piece;
-                // status.opponentOut = kickGoldOutOfGame();
                 break;
             case SQUARE_STATUS['rK']:
                 board[SQUARES[move.to]] = piece;
-                // status.opponentOut = kickRedOutOfGame();
                 break;
             default:
                 board[SQUARES[move.to]] = piece;
@@ -1507,38 +1473,38 @@ var FourChess = function (fen) {
     function allMovesForState(state, turn) {
         var ORIGINAL = BOARD.slice();
         BOARD = state.slice();
+
         var ownedSquares = [];
-        switch(turn) {
+        switch (turn) {
             case 'w':
-                ownedSquares = getAllWhiteSquares();
+                ownedSquares = getAllSquares("white");
                 break;
             case 'b':
-                ownedSquares = getAllBlackSquares();
+                ownedSquares = getAllSquares("black");
                 break;
             case 'g':
-                ownedSquares = getAllGoldSquares();
+                ownedSquares = getAllSquares("gold");
                 break;
             case 'r':
-                ownedSquares = getAllRedSquares();
+                ownedSquares = getAllSquares("red");
                 break;
         }
+
         var moves = [];
-        for(var i = 0; i < ownedSquares.length; i++) {
+        for (var i = 0; i < ownedSquares.length; i++) {
             var temp = generateMovesForSquare(ownedSquares[i]);
             temp = removeInvalidSquares(temp);
-            if(temp != null) {
+            if (temp != null) {
                 var BOARD_COPY = BOARD.slice();
-                for(var j = 0; j < temp.length; j++) {
+                for (var j = 0; j < temp.length; j++) {
                     temp[j].from = ownedSquares[i];
 
-                    //make the move
+                    // Makes the move
                     var piece = BOARD[SQUARES[ownedSquares[i]]];
                     BOARD[SQUARES[ownedSquares[i]]] = EMPTY;
                     BOARD[SQUARES[temp[j].to]] = piece;
 
-                    var checked = inCheck();
-
-                    if(checked) {
+                    if (inCheck()) {
                         temp.splice(j, 1);
                         j= -1;  //restart traversal
                     } else {
@@ -1551,8 +1517,8 @@ var FourChess = function (fen) {
         }
 
         var validMoves = [];
-        //only get the valid moves
-        for(var i = 0; i < moves.length; i++) {
+        // Only gets the valid moves
+        for (var i = 0; i < moves.length; i++) {
             validMoves.push(moves[i]);
         }
 
@@ -1561,7 +1527,7 @@ var FourChess = function (fen) {
     }
 
     function maximum(val1, val2) {
-        if(val1 > val2) {
+        if (val1 > val2) {
             return val1;
         } else {
             return val2;
@@ -1569,7 +1535,7 @@ var FourChess = function (fen) {
     }
 
     function minimum(val1, val2) {
-        if(val1 <= val2) {
+        if (val1 <= val2) {
             return val1;
         } else {
             return val2;
@@ -1579,8 +1545,8 @@ var FourChess = function (fen) {
     function orderMoves(moves, state) {
         var betterMoves = [];
         var worseMoves = [];
-        for(var i = 0; i < moves.length; i++) {
-            if(typeof moves[i] === 'undefined') {
+        for (var i = 0; i < moves.length; i++) {
+            if (typeof moves[i] === 'undefined') {
                 continue;
             }
 
@@ -1590,7 +1556,7 @@ var FourChess = function (fen) {
             var pieceFromType = pieceFromName.charAt(1);
 
             var pointsFrom = 0;
-            switch(pieceFromType) {
+            switch (pieceFromType) {
                 case 'P':
                     pointsFrom = 1;
                     break;
@@ -1613,14 +1579,14 @@ var FourChess = function (fen) {
 
             var pieceDest = state[SQUARES[moves[i].to]];
             var pieceDestName = getKeyByValue(SQUARE_STATUS, pieceDest);
-            if(pieceDestName == 'EMPTY') {
+            if (pieceDestName == 'EMPTY') {
                 worseMoves.push(moves[i]);
                 moves.splice(i, 1);
             }
             var pieceDestType = pieceDestName.charAt(1);
 
             var pointsDest = 0;
-            switch(pieceDestType) {
+            switch (pieceDestType) {
                 case 'P':
                     pointsDest = 1;
                     break;
@@ -1640,11 +1606,11 @@ var FourChess = function (fen) {
                     pointsDest = 10;
                     break;
             }
-            if(pointsDest == 0) {
+            if (pointsDest == 0) {
                 continue;
             }
 
-            if(pointsDest <= pointsFrom){
+            if (pointsDest <= pointsFrom){
                 betterMoves.push(moves[i]);
                 moves.splice(i, 1);
             } else {
@@ -1659,13 +1625,13 @@ var FourChess = function (fen) {
     }
 
     function getWinColor() {
-        if(goldOut && blackOut && redOut) {
+        if (goldOut && blackOut && redOut) {
             return 'w';
-        } else if(blackOut && redOut && whiteOut) {
+        } else if (blackOut && redOut && whiteOut) {
             return 'g';
-        } else if(redOut && whiteOut && goldOut) {
+        } else if (redOut && whiteOut && goldOut) {
             return 'b';
-        } else if(whiteOut && goldOut && blackOut) {
+        } else if (whiteOut && goldOut && blackOut) {
             return 'r';
         } else {
             return null;
@@ -1694,16 +1660,14 @@ var FourChess = function (fen) {
     }
 
     function search(state, alpha, beta, depth, maximizingPlayer) {
-        if(depth == 0) {
+        if (depth == 0) {
             var value = evaluateState(state);
             return {v: value };
         } else {
             var stateCopy;
             var moves;
 
-
-            // moves = moveOrdering(moves, state);
-            if(!maximizingPlayer) {
+            if (!maximizingPlayer) {
                 switch(TURN) {
                     case 'w':
                         moves = allMovesForState(state, 'b');
@@ -1729,47 +1693,47 @@ var FourChess = function (fen) {
 
                 moves = orderMoves(moves, state);
 
-                //minimize
+                // Minimize
                 var min = 1000000;
                 var move = null;
-                for(var i = 0; i < moves.length; i++) {
+                for (var i = 0; i < moves.length; i++) {
                     stateCopy = state.slice();
 
-                    //make the move
+                    // Makes the move
                     stateCopy = moveState(stateCopy, moves[i]);
                     var childMin = search(stateCopy, alpha, beta, depth-1, true).v;
-                    if(min >= childMin) {
+                    if (min >= childMin) {
                         min = childMin;
                         move = moves[i];
                     }
 
                     beta = minimum(beta, min);
 
-                    if(beta <= alpha) {
+                    if (beta <= alpha) {
                         break;
                     }
                 }
                 return {v: min, move: move};
             } else {
-                //maximize
+                // Maximize
                 moves = allMovesForState(state, TURN);
                 moves = shuffle(moves);
                 moves = orderMoves(moves, state);
                 var max = -1000000;
                 var move = null;
-                for(var i = 0; i < moves.length; i++) {
+                for (var i = 0; i < moves.length; i++) {
                     stateCopy = state.slice();
-                    //make the move
+                    // Makes the move
                     stateCopy = moveState(stateCopy, moves[i]);
                     var childMax = search(stateCopy, alpha, beta, depth-1, false).v;
-                    if(childMax >= max) {
+                    if (childMax >= max) {
                         max = childMax;
                         move = moves[i];
                     }
 
                     alpha = maximum(alpha, max);
 
-                    if(beta <= alpha) {
+                    if (beta <= alpha) {
                         console.log("broken");
                         break;
                     }
@@ -1796,37 +1760,35 @@ var FourChess = function (fen) {
             var ownedSquares = [];
             switch(TURN) {
                 case 'w':
-                    ownedSquares = getAllWhiteSquares();
+                    ownedSquares = getAllSquares("white");
                     break;
                 case 'b':
-                    ownedSquares = getAllBlackSquares();
+                    ownedSquares = getAllSquares("black");
                     break;
                 case 'g':
-                    ownedSquares = getAllGoldSquares();
+                    ownedSquares = getAllSquares("gold");
                     break;
                 case 'r':
-                    ownedSquares = getAllRedSquares();
+                    ownedSquares = getAllSquares("red");
                     break;
             }
 
             var moves = [];
-            for(var i = 0; i < ownedSquares.length; i++) {
+            for (var i = 0; i < ownedSquares.length; i++) {
                 var temp = generateMovesForSquare(ownedSquares[i]);
-                if(temp != null) {
+                if (temp != null) {
                     var BOARD_COPY = BOARD.slice();
-                    for(var j = 0; j < temp.length; j++) {
+                    for (var j = 0; j < temp.length; j++) {
                         temp[j].from = ownedSquares[i];
 
-                        //make the move
+                        // Makes the move
                         var piece = BOARD[SQUARES[ownedSquares[i]]];
                         BOARD[SQUARES[ownedSquares[i]]] = EMPTY;
                         BOARD[SQUARES[temp[j].to]] = piece;
 
-                        var checked = inCheck();
-
-                        if(checked) {
+                        if (inCheck()) {
                             temp.splice(j, 1);
-                            j= -1;  //restart traversal
+                            j= -1;  // Restart traversal
                         } else {
                             moves.push(temp[j]);
                         }
@@ -1839,8 +1801,8 @@ var FourChess = function (fen) {
             moves = removeInvalidSquares(moves);
 
             var validMoves = [];
-            //only get the valid moves
-            for(var i = 0; i < moves.length; i++) {
+            // Only gets the valid moves
+            for (var i = 0; i < moves.length; i++) {
                 validMoves.push(moves[i]);
             }
 
@@ -1848,22 +1810,21 @@ var FourChess = function (fen) {
         },
         moves: function (options) {
             var moves = generateMovesForSquare(options.square);
-            if(moves == null) {
+            if (moves == null) {
                 return moves;
             }
+
             var BOARD_COPY = BOARD.slice();
             for(var i =0 ;i < moves.length; i++) {
 
-                //make the move
+                // Makes the move
                 var piece = BOARD[SQUARES[options.square]];
                 BOARD[SQUARES[options.square]] = EMPTY;
                 BOARD[SQUARES[moves[i].to]] = piece;
 
-                var checked = inCheck();
-
-                if(checked) {
+                if(inCheck()) {
                     moves.splice(i, 1);
-                    i= -1;  //restart traversal
+                    i= -1;  // Restart traversal
                 }
 
                 BOARD = BOARD_COPY.slice();
@@ -1872,7 +1833,7 @@ var FourChess = function (fen) {
             return moves;
         },
         move: function(move) {
-            if(move == undefined) {
+            if (move == undefined) {
                 return;
             }
 
@@ -1885,49 +1846,40 @@ var FourChess = function (fen) {
               return null;
             }
 
-            if(inCheckMate()) {
+            if (inCheckMate()) {
                 setImmediateTurn();
             }
 
-            if(move.color) {
+            if (move.color) {
                 TURN = move.color;
             }
 
-            // make sure the piece that is being moved is
-            // on the correct square
+            // Make sure the piece being moved is on the correct square
             if (move.piece && SQUARE_STATUS[move.piece] !== BOARD[SQUARES[move.from]]) {
                 return null;
             }
             var options = generateMovesForSquare(move.from);
-            if(options == null) {
+            if (options == null) {
                 return null;
             }
 
-            var invalid = false
-
-            //Make sure the king doesn't get into check, make a copy of the original state
+            // Makes sure the King doesn't get into check and make a copy of the original state
             var BOARD_COPY = BOARD.slice();
 
-            //make the move
+            // Makes the move
             var piece = BOARD[SQUARES[move.from]];
             BOARD[SQUARES[move.from]] = EMPTY;
             BOARD[SQUARES[move.to]] = piece;
 
-            //Check to see if the player is in check
-            var checked = inCheck();
-
-            if(checked) {
-                invalid = true;
-            }
-
             BOARD = BOARD_COPY.slice();
 
-            if(invalid) {
+            // Checks to see if the player is in check
+            if (inCheck() {
                 return null;
             }
 
-            for(var i = 0; i < options.length; i++) {
-                if(options[i].to === move.to) { //this was a valid move
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].to === move.to) { // this was a valid move
                     var piece = BOARD[SQUARES[move.from]];
                     BOARD[SQUARES[move.from]] = EMPTY;
 
@@ -1935,57 +1887,57 @@ var FourChess = function (fen) {
 
                     pgn += moveString + " ";
 
-                    //a castle occurred
-                    if(options[i].castlerw) {
+                    // A castle occurred
+                    if (options[i].castlerw) {
                         BOARD[SQUARES.k1] = EMPTY;
                         BOARD[SQUARES.i1] = SQUARE_STATUS.wR;
-                    } else if(options[i].castlelw) {
+                    } else if (options[i].castlelw) {
                         BOARD[SQUARES.d1] = EMPTY;
                         BOARD[SQUARES.g1] = SQUARE_STATUS.wR;
-                    } else if(options[i].castlerg) {
+                    } else if (options[i].castlerg) {
                         BOARD[SQUARES.a4] = EMPTY;
                         BOARD[SQUARES.a7] = SQUARE_STATUS.gR;
-                    } else if(options[i].castlelg) {
+                    } else if (options[i].castlelg) {
                         BOARD[SQUARES.a11] = EMPTY;
                         BOARD[SQUARES.a9] = SQUARE_STATUS.gR;
-                    } else if(options[i].castlerb) {
+                    } else if (options[i].castlerb) {
                         BOARD[SQUARES.d14] = EMPTY;
                         BOARD[SQUARES.f14] = SQUARE_STATUS.bR;
-                    } else if(options[i].castlelb) {
+                    } else if (options[i].castlelb) {
                         BOARD[SQUARES.k14] = EMPTY;
                         BOARD[SQUARES.h14] = SQUARE_STATUS.bR;
-                    } else if(options[i].castlerr) {
+                    } else if (options[i].castlerr) {
                         BOARD[SQUARES.n11] = EMPTY;
                         BOARD[SQUARES.n8] = SQUARE_STATUS.rR;
-                    } else if(options[i].castlelr) {
+                    } else if (options[i].castlelr) {
                         BOARD[SQUARES.n4] = EMPTY;
                         BOARD[SQUARES.n6] = SQUARE_STATUS.rR;
                     }
 
-                    //Keep track of moved rooks
-                    if(move.from == 'k1') {
+                    // Keep track of moved rooks
+                    if (move.from == 'k1') {
                         white_moved_rt = true;
-                    } else if(move.from == 'd1') {
+                    } else if (move.from == 'd1') {
                         white_moved_lt = true;
-                    } else if(move.from == 'a4') {
+                    } else if (move.from == 'a4') {
                         gold_moved_rt = true;
-                    } else if(move.from == 'a11') {
+                    } else if (move.from == 'a11') {
                         gold_moved_lt = true;
-                    } else if(move.from == 'd14') {
+                    } else if (move.from == 'd14') {
                         black_moved_rt = true;
-                    } else if(move.from == 'k14') {
+                    } else if (move.from == 'k14') {
                         black_moved_lt = true;
-                    } else if(move.from == 'n4') {
+                    } else if (move.from == 'n4') {
                         red_moved_lt = true;
-                    } else if(move.from == 'n11') {
+                    } else if (move.from == 'n11') {
                         red_moved_rt = true;
                     }
 
-                    //Pawn Promotions
-                    switch(piece) {
+                    // Pawn Promotions
+                    switch (piece) {
                         case SQUARE_STATUS['wP']:
-                            if(move.to.charAt(1) == '1' && move.to.charAt(2)  && move.to.charAt(2) == '1') {
-                                piece = SQUARE_STATUS['wQ']; //auto queen
+                            if (move.to.charAt(1) == '1' && move.to.charAt(2)  && move.to.charAt(2) == '1') {
+                                piece = SQUARE_STATUS['wQ']; // Auto queen
                             }
                             break;
                         case SQUARE_STATUS['wK']:
@@ -2000,66 +1952,66 @@ var FourChess = function (fen) {
                         case SQUARE_STATUS['rK']:
                             red_moved_king = true;
                             break;
-                        case SQUARE_STATUS['bP']:
-                            if(move.to.charAt(1) == '4') {
-                                piece = SQUARE_STATUS['bQ']; //auto queen
+                        case SQUARE_STATUS['bP']: // TODO: Combine all these?
+                            if (move.to.charAt(1) == '4') {
+                                piece = SQUARE_STATUS['bQ']; // Auto queen
                             }
                             break;
                         case SQUARE_STATUS['gP']:
-                            if(move.to.charAt(0) == 'k') {
-                                piece = SQUARE_STATUS['gQ']; //auto queen
+                            if (move.to.charAt(0) == 'k') {
+                                piece = SQUARE_STATUS['gQ']; // Auto queen
                             }
                             break;
                         case SQUARE_STATUS['rP']:
-                            if(move.to.charAt(0) == 'd') {
-                                piece = SQUARE_STATUS['rQ']; //auto queen
+                            if (move.to.charAt(0) == 'd') {
+                                piece = SQUARE_STATUS['rQ']; // Auto queen
                             }
                             break;
                     }
 
                     var status = new Object();
 
-                    //Was a king taken?
-                    switch(BOARD[SQUARES[move.to]]) {
+                    // Was a king taken?
+                    switch (BOARD[SQUARES[move.to]]) {
                         case SQUARE_STATUS['wK']:
                             BOARD[SQUARES[move.to]] = piece;
-                            // status.opponentOut = kickWhiteOutOfGame();
-                            if(whiteOut === false) {
+                            if (whiteOut === false) {
                                 numOut++;
                                 whiteOut = true;
                                 nWhiteOut = numOut;
                                 status.color = 'w';
                             }
+
                             break;
                         case SQUARE_STATUS['bK']:
                             BOARD[SQUARES[move.to]] = piece;
-                            // status.opponentOut = kickBlackOutOfGame();
-                            if(blackOut === false) {
+                            if (blackOut === false) {
                                 numOut++;
                                 blackOut = true;
                                 nBlackOut = numOut;
                                 status.color = 'b';
                             }
+
                             break;
                         case SQUARE_STATUS['gK']:
                             BOARD[SQUARES[move.to]] = piece;
-                            // status.opponentOut = kickGoldOutOfGame();
-                            if(goldOut === false) {
+                            if (goldOut === false) {
                                 numOut++;
                                 goldOut = true;
                                 nGoldOut = numOut;
                                 status.color = 'g';
                             }
+
                             break;
                         case SQUARE_STATUS['rK']:
                             BOARD[SQUARES[move.to]] = piece;
-                            // status.opponentOut = kickRedOutOfGame();
-                            if(redOut === false) {
+                            if (redOut === false) {
                                 numOut++;
                                 redOut = true;
                                 nRedOut = numOut;
                                 status.color = 'r';
                             }
+
                             break;
                         default:
                             BOARD[SQUARES[move.to]] = piece;
@@ -2074,30 +2026,27 @@ var FourChess = function (fen) {
                     });
 
                     setImmediateTurn();
-
-                    // setNextTurn();
-
                     status.turn = TURN;
-
 
                     return status;
                 }
             }
+
             return null;
         },
         in_draw: function() {
             var remainingPlayers = getRemainingPlayers();
-            if(remainingPlayers.length === 1) {
+            if (remainingPlayers.length === 1) {
                 return false;
             } else {
-                for(var i = 0; i < remainingPlayers.length; i++) {
+                for (var i = 0; i < remainingPlayers.length; i++) {
                     if (insufficentMaterial(remainingPlayers[i]) === false) {
                         return false;
                     }
                 }
+
                 return true;
             }
-
         },
         turn: function() {
             return TURN;
@@ -2119,8 +2068,8 @@ var FourChess = function (fen) {
         },
         getPieceCount: function() {
             var count = 0;
-            for(var i = 0; i < BOARD.length; i++) {
-                if(BOARD[i] != EMPTY) {
+            for (var i = 0; i < BOARD.length; i++) {
+                if (BOARD[i] != EMPTY) {
                     count++;
                 }
             }
@@ -2140,28 +2089,28 @@ var FourChess = function (fen) {
             return kickRedOutOfGame();
         },
         setWhiteOut: function() {
-            if(whiteOut === false) {
+            if (whiteOut === false) {
                 numOut++;
                 whiteOut = true;
                 nWhiteOut = numOut;
             }
         },
         setGoldOut: function() {
-            if(goldOut === false) {
+            if (goldOut === false) {
                 numOut++;
                 goldOut = true;
                 nGoldOut = numOut;
             }
         },
         setBlackOut: function() {
-            if(blackOut === false) {
+            if (blackOut === false) {
                 numOut++;
                 blackOut = true;
                 nBlackOut = numOut;
             }
         },
         setRedOut: function() {
-            if(redOut === false) {
+            if (redOut === false) {
                 numOut++;
                 redOut = true;
                 nRedOut = numOut;
@@ -2193,9 +2142,10 @@ var FourChess = function (fen) {
                 r: nRedOut
             };
             let winColor = getWinColor();
-            if(winColor !== null) {
+            if (winColor !== null) {
                 loserOrder[winColor] = 4;
             }
+
             return loserOrder;
         },
         getWinnerColor: function() {
@@ -2207,44 +2157,48 @@ var FourChess = function (fen) {
         getBoard: function() {
             return BOARD;
         },
-        getWhitePoints: function() {
+        getWhitePoints: function() { // TODO: Condense these 4 functions into one?
             var sum = 0;
-            for(var i = 0; i < BOARD.length; i++) {
+            for (var i = 0; i < BOARD.length; i++) {
                 var piece = BOARD[i];
-                if(whitePiece(piece)) {
+                if (pieceIsColor("white", piece)) {
                     sum++;
                 }
             }
+
             return sum;
         },
         getBlackPoints: function() {
             var sum = 0;
-            for(var i = 0; i < BOARD.length; i++) {
+            for (var i = 0; i < BOARD.length; i++) {
                 var piece = BOARD[i];
-                if(blackPiece(piece)) {
+                if (pieceIsColor("black", piece)) {
                     sum++;
                 }
             }
+
             return sum;
         },
         getGoldPoints: function() {
             var sum = 0;
-            for(var i = 0; i < BOARD.length; i++) {
+            for (var i = 0; i < BOARD.length; i++) {
                 var piece = BOARD[i];
-                if(goldPiece(piece)) {
+                if (pieceIsColor("gold", piece)) {
                     sum++;
                 }
             }
+
             return sum;
         },
         getRedPoints: function() {
             var sum = 0;
-            for(var i = 0; i < BOARD.length; i++) {
+            for (var i = 0; i < BOARD.length; i++) {
                 var piece = BOARD[i];
-                if(redPiece(piece)) {
+                if (pieceIsColor("red", piece)) {
                     sum++;
                 }
             }
+
             return sum;
         },
 
@@ -2257,7 +2211,6 @@ var FourChess = function (fen) {
             console.log(move.v);
             return move.move;
         }
-
     };
 };
 
