@@ -220,7 +220,7 @@ UserSchema.methods.comparePassword = function(candidatePassword, callback) {
 };
 
 
-//Before saving hash and salt passwords
+// Before saving hash and salt passwords
 UserSchema.pre('save', function(next) {
     var user = this;
     if (this.isNew) {
@@ -228,9 +228,9 @@ UserSchema.pre('save', function(next) {
     }
 
     if (user.isModified('password')) {
-        //generate a salt
+        // Generate a salt
         bcrypt.genSalt(11, (err, salt) => {
-            //hash using salt
+            // Hash using salt
             bcrypt.hash(user.password, salt, (err, hash) => {
                 user.password = hash;
                 next();

@@ -11,13 +11,13 @@ const Async = require('async');
 exports.getRecentGames = (req, res, next) => {
     const id = req.params.id;
 
-    if(!ObjectID.isValid(id)) {
+    if (!ObjectID.isValid(id)) {
         return res.status(404).send();
     }
-    
+
     let recentGames = {
         standard: function(cb) {
-            //get last 5 standard games
+            // Gets last 5 standard games
             StandardGame.find({ $or : [ { "white.user_id": ObjectID(id)}, { "black.user_id": ObjectID(id) } ] } )
                 .populate('black.user_id')
                 .populate('white.user_id')
@@ -31,9 +31,9 @@ exports.getRecentGames = (req, res, next) => {
                 });
         },
         four_player: function(cb) {
-            //get last 5 schess games
+            // Gets last 5 schess games
             FourGameDB.find({ $or : [
-                                    { "white.user_id": ObjectID(id) }, 
+                                    { "white.user_id": ObjectID(id) },
                                     { "black.user_id": ObjectID(id) },
                                     { "gold.user_id": ObjectID(id) },
                                     { "red.user_id": ObjectID(id) },
@@ -52,7 +52,7 @@ exports.getRecentGames = (req, res, next) => {
                 });
         },
         schess: function(cb) {
-            //get last 5 schess games
+            // Gets last 5 schess games
             SChessDB.find({ $or : [ { "white.user_id": ObjectID(id)}, { "black.user_id": ObjectID(id) } ] } )
                 .populate('black.user_id')
                 .populate('white.user_id')
@@ -66,7 +66,7 @@ exports.getRecentGames = (req, res, next) => {
                 });
         },
         crazyhouse: function(cb) {
-            //get last 5 crazyhouse games
+            // Gets last 5 crazyhouse games
             CrazyhouseGame.find({ $or : [ { "white.user_id": ObjectID(id)}, { "black.user_id": ObjectID(id) } ] } )
                 .populate('black.user_id')
                 .populate('white.user_id')
@@ -80,7 +80,7 @@ exports.getRecentGames = (req, res, next) => {
                 });
         },
         crazyhouse960: function(cb) {
-            //get last 5 crazyhouse games
+            // Gets last 5 crazyhouse960 games
             Crazyhouse960Game.find({ $or : [ { "white.user_id": ObjectID(id)}, { "black.user_id": ObjectID(id) } ] } )
                 .populate('black.user_id')
                 .populate('white.user_id')
@@ -93,16 +93,15 @@ exports.getRecentGames = (req, res, next) => {
                     cb(e);
                 });
         },
-        
+
     }
-    
+
     Async.parallel (recentGames, function (err, results) {
 
         if (err) { console.log(err); res.status(400).send(err);}
-    
-        //results holds the leaderboard object
+
+        // Results holds the leaderboard object
         res.send(results);
 
     });
 }
-

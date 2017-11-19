@@ -24,11 +24,11 @@ const {authenticate} = require('./middleware/authenticate');
 
 let allowCrossDomain = null;
 
-//CORS middleware for testing purposes
-if(env == "production") {
+// CORS middleware for testing purposes
+if (env == "production") {
     allowCrossDomain = function(req, res, next) {
         res.header('Access-Control-Allow-Origin', [
-            'https://www.hellochess.com'
+            'https://hellochess.com'
         ]);
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH');
         res.header('Access-Control-Allow-Headers', 'Content-Type, x-auth');
@@ -52,17 +52,17 @@ if(env == "production") {
 
 const port = process.env.PORT || 8080;
 
-//middleware
-//app.use(morgan('combined'));
+// middleware
+// app.use(morgan('combined'));
 app.use(allowCrossDomain);
 app.use(bodyParser.json());
-//serve up static public folder
+// Serves up static public folder
 app.use(express.static(path.join(__dirname, '../public'), {
     maxAge: '1d'
 }));
 
 
-//listen to the required port
+// Listens to the required port
 http.listen(port, function() {
     console.log(`Express server listening on port ${port}`);
 });

@@ -15,21 +15,19 @@ class RoomViewer extends Component {
     }
 
     componentWillMount() {
-
-        if(this.props.connection.status) {
-            if(!this.props.activeProfile._id) {
+        if (this.props.connection.status) {
+            if (!this.props.activeProfile._id) {
                 this.props.updateLiveUser(this.props.profile);
             }
         }
     }
-    
+
     componentDidMount() {
         this.removeHrefs();
     }
-    
+
     componentDidUpdate(prevProps) {
         this.removeHrefs();
-        
     }
 
     onSelectTab(chatName, event) {
@@ -41,12 +39,12 @@ class RoomViewer extends Component {
     onCloseChatTab(chatName, event, chatValue) {
         event.preventDefault();
         event.stopPropagation();
-        if(chatValue.mode === 'analysis') {
+        if (chatValue.mode === 'analysis') {
             this.props.closeAnalysisRoom(chatName);
         } else {
             this.props.leaveRoom(chatName);
         }
-        
+
         if (this.props.activeThread === chatName) {
             let openThreadNames =
                 Object.keys(this.props.openThreads).filter(name => name !== chatName);
@@ -62,8 +60,8 @@ class RoomViewer extends Component {
             }
         }
     }
-    
-    // remove hrefs from tab links so it doesn't show
+
+    // Removes hrefs from tab links so it doesn't show
     // the useless '#' link on hover
     removeHrefs() {
         let tabsContainer = $("ul[role='tablist']")
@@ -74,10 +72,10 @@ class RoomViewer extends Component {
     renderNavTab(chats, active) {
         return mapObject(chats, (key, chat) => {
             let title = <span>
-                            <button onClick={(e) =>this.onCloseChatTab(key, e, chat)}
-                                className="close closeTab" 
-                                type="button" >×</button>{key}
-                            </span>;
+                <button onClick={(e) =>this.onCloseChatTab(key, e, chat)}
+                    className="close closeTab"
+                    type="button" >×</button>{key}
+                </span>;
             return (
                 <Tab key={key} eventKey={key} title={title}>
                     <div id="chat-tab-content">
@@ -89,15 +87,14 @@ class RoomViewer extends Component {
     }
 
     render() {
-        if(!this.props.profile || !this.props.profile.username) {
-            return <div>
-            </div>
+        if (!this.props.profile || !this.props.profile.username) {
+            return (<div></div>);
         }
 
         let {activeThread, openThreads} = this.props;
 
-        if(!activeThread || !openThreads) {
-            return <div>Loading...</div>;
+        if (!activeThread || !openThreads) {
+            return (<div>Loading...</div>);
         }
 
         return (

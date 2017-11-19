@@ -71,7 +71,7 @@ class CustomMenu extends React.Component {
             !value.trim() || child.props.children.indexOf(value) !== -1
             ))}
         <ul className="list-unstyled">
-            
+
         </ul>
       </div>
     );
@@ -114,7 +114,8 @@ class Live extends Component {
         this.props.dispatch({
             type: 'server/get-rooms'
         });
-        if(!this.props.connection.status) {
+
+        if (!this.props.connection.status) {
             this.props.userConnect(this.props.profile);    //Connect the user to the server
         }
     }
@@ -136,12 +137,13 @@ class Live extends Component {
 
     saveUsername(event) {
         const username = this.state.usernameInput;
-        if(this.usernameValid(username)) {
+        if (this.usernameValid(username)) {
             this.props.saveUsername(this.props.profile._id, username);
         }
+
         event.preventDefault();
     }
-    
+
     usernameValid(username) {
         return username.length > 3;
     }
@@ -152,7 +154,7 @@ class Live extends Component {
             usernameValid: this.usernameValid(event.target.value)
         });
     }
-    
+
     toggleSounds() {
         let enableSounds = JSON.parse(localStorage.getItem('enableSounds'));
         if (typeof enableSounds === "undefined" || enableSounds === null) {
@@ -213,7 +215,7 @@ class Live extends Component {
     }
 
     renderInputUsername() {
-        if(!this.props.profile.username) {
+        if (!this.props.profile.username) {
             return (
                 <ModalContainer >
                   <ModalDialog>
@@ -235,17 +237,18 @@ class Live extends Component {
             );
         }
     }
-    
+
     handleAlertDismiss() {
         localStorage.setItem('showDevAlert3', false);
         this.setState({alertVisible: false});
     }
-    
+
     renderMicrophoneStatus() {
-        if(!this.props.openThread || !this.props.openThread.room.voiceChat) {
+        if (!this.props.openThread || !this.props.openThread.room.voiceChat) {
             return;
         }
-        if(this.props.enabledVoice == false || !this.props.enabledVoice)
+
+        if (this.props.enabledVoice == false || !this.props.enabledVoice)
             return (
                 <a className="mic-status" onClick={(e) => this.props.enableMic(this.props.activeThread)}>
                     <span className="fa-stack fa-2x">
@@ -253,7 +256,7 @@ class Live extends Component {
                         <i className="fa fa-microphone-slash fa-stack-1x fa-inverse"></i>
                     </span>
                 </a>
-            ); 
+            );
         else {
             return (
             <a className="mic-status" onClick={(e) => this.props.disableMic(this.props.activeThread)}>
@@ -262,10 +265,10 @@ class Live extends Component {
                     <i className="fa fa-microphone fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-        ); 
+        );
         }
     }
-    
+
     zoomLevelToWidths(zoomLevel) {
         const defaultChat = 44;
         const defaultBoard = 56;
@@ -273,7 +276,7 @@ class Live extends Component {
         let chatZoom = 100 - boardZoom;
         return {boardZoom, chatZoom};
     }
-    
+
     onChangeZoom(value) {
         let {boardZoom, chatZoom} = this.zoomLevelToWidths(value);
         this.props.changeZoom(value);
@@ -283,7 +286,7 @@ class Live extends Component {
         });
         localStorage.setItem("zoomLevel", value);
     }
-    
+
     renderProfileButton() {
         let isAnonymous = this.props.profile.anonymous === true;
         if (isAnonymous) {
@@ -294,7 +297,7 @@ class Live extends Component {
             );
         }
     }
-    
+
     renderProfileMenu() {
         let enableSounds = this.state.enableSounds;
         let soundMenuString = `Move sounds ${enableSounds ? '✔' : ''}`;
@@ -326,16 +329,16 @@ class Live extends Component {
             </Dropdown>
         );
     }
-    
+
     renderFooter() {
         return (
             <div id="footer">
-                <a href="https://github.com/johnnyvf24/hellochess-v2/issues"
+                <a href="https://github.com/ajmeese7/hellochess-v2/issues"
                     target="_blank"
                     rel="noopener">
                     Bug Report
                 </a>
-                <a href="https://github.com/johnnyvf24/hellochess-v2"
+                <a href="https://github.com/ajmeese7/hellochess-v2"
                     target="_blank"
                     rel="noopener">
                     Source Code
@@ -345,7 +348,7 @@ class Live extends Component {
     }
 
     render() {
-        if(this.props.connection.error) {
+        if (this.props.connection.error) {
             return (
                 <div>
                     <ModalContainer >
@@ -353,7 +356,7 @@ class Live extends Component {
                           <div className="row">
                               <strong className="center">Multiple Logins detected!</strong>
                           </div>
-                          <p>Please check that only one tab is open or that you are only logged in on one device</p>
+                          <p>Please check that only one tab is open or that you are only logged in on one device.</p>
                       </ModalDialog>
                     </ModalContainer>
                 </div>
@@ -371,46 +374,17 @@ class Live extends Component {
 
                     </Row>
                     <Row>
-                        <h2 id="main-loading-message" className="center">Connecting To Server</h2>
+                        <h2 id="main-loading-message" className="center">Connecting To Server...</h2>
                     </Row>
                 </Grid>
             );
         }
         else {
-        
+
             let {activeThread} = this.props;
 
             return (
                 <div id="main-panel">
-                    {this.state.alertVisible && 
-                    <Alert
-                        bsStyle="success"
-                        onDismiss={this.handleAlertDismiss.bind(this)}
-                        style={{
-                            position: 'absolute',
-                            width: '600px',
-                            textAlign: 'center',
-                            zIndex: '999',
-                            paddingBottom: '10px',
-                            paddingTop: '10px',
-                            margin: '0 auto',
-                            left: '25%',
-                            right: '25%'
-                        }}>
-                        <i className="fa fa-wrench fa-lg" aria-hidden="true"></i>
-                        <strong>This site is not actively maintained</strong>
-                        <p>
-                            <a href="https://www.chess.com/4-player-chess">
-                                Four Player chess has moved to <b>Chess.com</b> where it is actively maintained.
-                            </a>
-                        </p>
-                        <p>
-                            <a href="https://schess.org">
-                                And for S-Chess, check out <b>SChess.org</b>!
-                            </a>
-                        </p>
-                    </Alert>
-                    }
                     <Row>
                         <NewGame/>
                         <div className="pull-right">
@@ -449,9 +423,10 @@ class Live extends Component {
 function mapStateToProps(state) {
     let openThread = state.openThreads[state.activeThread];
     let enabledVoice = false, streamingVoice = false;
-    if(openThread) {
+    if (openThread) {
         enabledVoice = openThread.enabledVoice;
     }
+
     return {
         profile: state.auth.profile,
         connection: state.connection,

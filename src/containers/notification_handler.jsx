@@ -6,7 +6,7 @@ class NotificationHandler extends Component {
     constructor(props) {
         super(props);
     }
-    
+
     componentWillReceiveProps(nextProps) {
         let gameStarting = this.props.gameStarted === false && nextProps.gameStarted === true;
         let userIsPlaying = this.userIsPlaying(nextProps);
@@ -20,12 +20,13 @@ class NotificationHandler extends Component {
             };
         }
     }
-    
+
     userIsPlaying(props) {
         let colors = ['white', 'black', 'gold', 'red'];
         if (typeof props.game === "undefined") {
             return false;
         }
+
         return colors.some((color) => {
             if (typeof props.game[color] !== "undefined") {
                 if (props.game[color].playerId === props.profile._id) {
@@ -34,7 +35,7 @@ class NotificationHandler extends Component {
             }
         });
     }
-    
+
     tabHasFocus() {
         let hidden = hidden;
         if (typeof document.hidden !== "undefined") {
@@ -42,9 +43,10 @@ class NotificationHandler extends Component {
         } else if (typeof document.msHidden !== "undefined") {
             hidden = "msHidden";
         }
+
         return !(document[hidden]);
     }
-    
+
     render() {
         return (
             <BrowserNotification
@@ -69,6 +71,7 @@ function mapStateToProps(state) {
         gameStarted = game.gameStarted;
         activePly = room.activePly;
     }
+
     return {
         profile: profile,
         move: move,

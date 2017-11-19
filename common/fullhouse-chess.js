@@ -237,6 +237,7 @@ var FullhouseChess = function (fen) {
         if (!validate_fen(fen).valid) {
             return false;
         }
+
         clear();
         for (var i = 0; i < position.length; i++) {
             var piece = position.charAt(i);
@@ -251,6 +252,7 @@ var FullhouseChess = function (fen) {
                 square++;
             }
         }
+
         if (tokens[1] === '-') {
             pieces_moved.w = 0;
             pieces_moved.b = 0;
@@ -261,6 +263,7 @@ var FullhouseChess = function (fen) {
                     pieces_moved.w |= PIECE_BITS[piece_order[i]];
                 }
             }
+
             for (var i = 8; i < 16; i++) {
                 var piece_moved = tokens[1][i];
                 if (piece_moved == 's') {

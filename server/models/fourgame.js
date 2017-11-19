@@ -34,7 +34,7 @@ var FourWaySchema = new Schema({
             type: Number,
             required: true
         }
-    }, 
+    },
     red: {
         user_id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -64,8 +64,8 @@ var FourWaySchema = new Schema({
             required: true
         }
     },
-    //Loser order fourth, third, second, first. e.g. {w: 1, g: 2, b: 3, r: 4} 
-    //implying white lost first and red won
+    // Loser order fourth, third, second, first. e.g. {w: 1, g: 2, b: 3, r: 4}
+    // Implying white lost first and red won
     loser_order: {
         w: {
             type: Number,

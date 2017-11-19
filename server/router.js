@@ -19,28 +19,28 @@ module.exports = function(app) {
     app.get("/live", (req, res) => {
         res.sendFile(path.join(__dirname, "../public/index.html"));
     });
-    
+
     app.get("/players", (req, res) => {
         res.sendFile(path.join(__dirname, "../public/index.html"));
     });
-    
+
     app.get("/leaderboard", (req, res) => {
         res.sendFile(path.join(__dirname, "../public/index.html"));
     });
-    
+
     app.get('/profile/:id', (req, res) => {
         res.sendFile(path.join(__dirname, "../public/index.html"));
     });
-    
+
     app.get("/robots.txt", (req, res) => {
         res.sendFile(path.join(__dirname, "../public/robots.txt"));
     });
-    
+
     app.get("/tosandprivacy", (req, res) => {
         res.sendFile(path.join(__dirname, "../public/index.html"));
     });
 
-    //Authentication routes
+    // Authentication routes
     app.post('/api/users/signup', Authentication.signup);
     app.post('/api/users/login', requireLogin, Authentication.login);
     app.post('/api/users/anonLogin', Authentication.anonLogin);

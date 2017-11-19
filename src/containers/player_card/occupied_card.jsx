@@ -12,43 +12,37 @@ class OccupiedCard extends Component {
     constructor(props) {
         super(props);
     };
-    
+
     shouldComponentUpdate(nextProps) {
-        if(nextProps.activeThread != this.props.activeThread) 
+        if (nextProps.activeThread != this.props.activeThread) {
             return true;
-        if(nextProps.game.fen != this.props.game.fen) {
+        } else if (nextProps.game.fen != this.props.game.fen) {
             return true;
-        }
-        
-        if(this.props.playerTime != nextProps.playerTime) {
+        } else if (this.props.playerTime != nextProps.playerTime) {
             return true;
-        }
-        
-        if (this.props.gameStarted != nextProps.gameStarted) {
+        } else if (this.props.gameStarted != nextProps.gameStarted) {
+            return true;
+        } else if (this.props.player.playerId != nextProps.player.playerId) {
             return true;
         }
-        
-        if (this.props.player.playerId != nextProps.player.playerId) {
-            return true;
-        }
-        
+
         return false;
     }
-    
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.gameStarted === false) {
             this.clock.pause();
         } else {
             let isOurTurn = nextProps.turn === this.props.color;
             let shouldClocksStart = this.props.moveNum >= this.props.numPlayers - 1;
-            if(isOurTurn && nextProps.gameStarted === true && shouldClocksStart) {
+            if (isOurTurn && nextProps.gameStarted === true && shouldClocksStart) {
                 this.clock.start(this.props.playerTime);
             } else {
                 this.clock.pause();
             }
         }
     }
-    
+
     updateTime(timeLeft) {
         this.props.updateTime(this.props.room.room.name, this.props.playerColor.charAt(0), timeLeft);
     }
@@ -60,10 +54,12 @@ class OccupiedCard extends Component {
         } else {
             initialTime = this.props.time.value * 60 * 1000;
         }
+
         this.clock = new Clock(initialTime, this.props.time.increment);
         this.clock.onTick(this.updateTime.bind(this));
         let shouldClocksStart = this.props.moveNum >= this.props.numPlayers - 1;
-        if(this.props.turn == this.props.color && this.props.gameStarted == true && shouldClocksStart) {
+
+        if (this.props.turn == this.props.color && this.props.gameStarted == true && shouldClocksStart) {
             this.clock.start();
         } else if(this.props.gameStarted == false){
             this.clock.pause();
@@ -87,16 +83,17 @@ class OccupiedCard extends Component {
     removeAi(player, roomName) {
         this.props.removeComputer(player, roomName);
     }
-    
+
     enableMic(player, roomName) {
         this.props.enableMic(roomName);
     }
-    
+
     disableMic(player, roomName) {
         this.props.disableMic(roomName);
     }
+
     renderLeaveSeat(player, roomName) {
-        if(player.type == "computer") {
+        if (player.type == "computer") {
             return (
                 <div className="pull-right">
                     <a href="#"
@@ -107,16 +104,16 @@ class OccupiedCard extends Component {
             );
         }
     }
-    
+
     renderEnableMicrophone(player, roomName) {
-        
-        if(player.playerId == this.props.profile._id) {
-            if(!this.props.voice) {
+
+        if (player.playerId == this.props.profile._id) {
+            if (!this.props.voice) {
                 return (
                     <div className="pull-right">
                         <a href="#"
                             onClick={(event) => this.enableMic(player, roomName)}>
-                            <i className="fa fa-microphone-slash" aria-hidden="true"></i> 
+                            <i className="fa fa-microphone-slash" aria-hidden="true"></i>
                         </a>
                     </div>
                 );
@@ -125,12 +122,12 @@ class OccupiedCard extends Component {
                     <div className="pull-right">
                         <a href="#"
                             onClick={(event) => this.disableMic(player, roomName)}>
-                            <i className="fa fa-microphone" aria-hidden="true"></i> 
+                            <i className="fa fa-microphone" aria-hidden="true"></i>
                         </a>
                     </div>
                 );
             }
-            
+
         }
     }
 
@@ -140,7 +137,7 @@ class OccupiedCard extends Component {
 
     // Alive = still playing
     // Dead = resigned or flagged
-    // if dead, returns the className that will
+    // If dead, returns the className that will
     // indicate a dead player
     renderAliveIndicator() {
         const {player, longColor, gameStarted} = this.props;
@@ -148,9 +145,10 @@ class OccupiedCard extends Component {
         if (gameStarted === true && player.alive === false) {
             className = longColor + "-dead";
         }
+
         return className;
     }
-    
+
     renderPlayerScore() {
         if (this.props.room.room.roomMode === "match") {
             let id = this.props.player.playerId;
@@ -162,7 +160,7 @@ class OccupiedCard extends Component {
             );
         }
     }
-    
+
     renderPlayerImage() {
         let {player} = this.props;
         let isAnonymous = player.anonymous === true;
@@ -173,32 +171,34 @@ class OccupiedCard extends Component {
                     {playerImage}
                 </div>
             );
-        } else {
-            return (
-                <a href="#"
-                    onClick={(e) => browserHistory.push(`/profile/${player.playerId}`)}
-                    className="pull-left">
-                    {playerImage}
-                </a>
-            );
         }
+
+        return (
+            <a href="#"
+                onClick={(e) => browserHistory.push(`/profile/${player.playerId}`)}
+                className="pull-left">
+                {playerImage}
+            </a>
+        );
     }
 
     render() {
         const {profile, room, game, time, playerTime, activeThread, gameStarted} = this.props;
         let {player} = this.props;
-        if(!profile || !room || !player || !game || !time || !activeThread) {
-            return <div></div>
+        if (!profile || !room || !player || !game || !time || !activeThread) {
+            return (<div></div>);
         }
-        if(room.mode === 'analysis') {
+
+        if (room.mode === 'analysis') {
             player = player.user_id;
             player.playerId = player._id;
         }
+
         return (
             <div className={"player-card-border" + this.renderActiveBorder()}>
                 <Panel className={"player-card occupied " + this.renderAliveIndicator() + " " + this.props.colorClass}>
                     {this.renderPlayerScore()}
-                    { !gameStarted && this.renderLeaveSeat(player, activeThread)}
+                    {!gameStarted && this.renderLeaveSeat(player, activeThread)}
                     <Row>
                         {this.renderPlayerImage()}
                         <div className="player-sit-info">

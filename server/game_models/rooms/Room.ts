@@ -24,17 +24,17 @@ export default class Room {
     public playerScores: any = {};
     public rematchOffered: boolean = false;
     public rematchSenderId: any;
-    
+
     static numRooms: number = 0;
-    
+
     constructor(private io: any, private _game: Game) {
-        this._messages = []; //a list of all the messages stored for that room
-        this._players = []; //a list of all players in the room
+        this._messages = []; // A list of all the messages stored for that room
+        this._players = []; // A list of all players in the room
         Room.numRooms++;
         this._id = Room.numRooms;
         this.clock = new Clock();
         this.clock.onTimeUp(this.timeUpFunction.bind(this));
-        // set up the action string depending on game type
+        // Sets up the action string depending on game type
         switch (this.getGameType()) {
             case "four-player":
                 this.gameStartAction = "four-game-started";
@@ -50,13 +50,13 @@ export default class Room {
         }
         this.allowedPlayerIDs = [];
     }
-    
+
     setRoomAttributes(roomObj: any): boolean {
-        if( typeof roomObj.private == undefined
-            || typeof roomObj.voiceChat == undefined 
+        if (typeof roomObj.private == undefined
+            || typeof roomObj.voiceChat == undefined
             || typeof roomObj.maxPlayers == undefined
             || typeof roomObj.name == undefined) {
-            return false;        
+            return false;
         }
         this._priv = roomObj.private;
         this._voiceChat = roomObj.voiceChat;
@@ -69,21 +69,20 @@ export default class Room {
         }
         return true;
     }
-    
+
     addAllowedPlayerID(id) {
         this.allowedPlayerIDs.push(id);
         this.playerScores[id] = 0;
     }
-    
+
     isAllowedPlayerID(id) {
         return this.allowedPlayerIDs.includes(id);
     }
-    
+
     getRoomObjFull(): Object {
         let game;
-        
-        if(this._game) {
-            
+
+        if (this._game) {
             let times = this._game.getCurrentTimes();
             game = this._game.getGame();
             return {
@@ -109,7 +108,7 @@ export default class Room {
             };
         }
     }
-    
+
     getRoomCondensed(): Object {
         return {
             id: this._id,
@@ -126,42 +125,42 @@ export default class Room {
             time: this._time,
         };
     }
-    
+
     getNumberOfPlayers() {
         return this._players.length;
     }
-    
+
     getLastNMessages(n) {
         return this.getAllMessages().slice(-n);
     }
-    
+
     getAllMessages() {
         return this._messages.map(m => m.getMessage());
     }
-    
+
     addPlayer(playerObj: Player) {
         playerObj.socket.join(this._name);
-        
+
         this._players.push(playerObj);
         if (!playerObj.anonymous) {
             let joinMsg: JoinMessage = new JoinMessage(playerObj, null, this._name);
             this.addMessage(joinMsg);
         }
-        
-        //Tell everyone in the room that a new user has connnected
+
+        // Tells everyone in the room that a new user has connnected
         this.io.to(this.name).emit('update-room-full', this.getRoomObjFull());
-        
+
         return true;
     }
-    
+
     empty(): boolean {
-        if(this._players.length == 0 ) {
+        if (this._players.length == 0 ) {
             return true;
         }
         return false;
     }
-    
-    //Remove a player from the room;
+
+    // Removes a player from the room;
     removePlayer(playerThatLeft: Player) {
         if(!playerThatLeft) {
             return false;
@@ -183,7 +182,7 @@ export default class Room {
             }
             playerThatLeft.socket.leave(this._name);
             playerThatLeft.socket.emit('left-room', this._name);
-            //Tell everyone in a room that a user has left
+            // Tells everyone in a room that a user has left
             this.io.to(this._name).emit('user-room-left', {
                 name: this._name,
                 user: playerThatLeft.getPlayer(),
@@ -192,28 +191,28 @@ export default class Room {
         }
         return foundPlayer;
     }
-    
-    //Add a game object to the room
+
+    // Adds a game object to the room
     set game(gameObj) {
         this._game = gameObj;
     }
-    
+
     set time(timeObj: any) {
         this._time = timeObj;
     }
-    
+
     get time() {
         return this._time;
     }
-    
+
     get voiceChat() {
         return this._voiceChat;
     }
-    
+
     get id() {
         return this._id;
     }
-    
+
     emitMessage(messageObj) {
         this.addMessage(messageObj);
         this.io.to(messageObj.thread).emit('action', {
@@ -221,24 +220,24 @@ export default class Room {
             payload: messageObj
         });
     }
-    
-    //add a message to the room
+
+    // Adds a message to the room
     addMessage(message: Message) {
         this._messages.push(message);
-        // keep number of messages in room limited
+        // Keeps number of messages in room limited
         if (this._messages.length > this.NUM_MESSAGE_LIMIT) {
             this._messages.shift();
         }
     }
-    
-    //add all players in the room
+
+    // Adds all players in the room
     getAllRoomPlayers() {
         return this._players;
     }
-    
+
     updatePlayer(data) {
         this._players.map((player) => {
-            if(player.playerId === data._id || player.playerId === data.playerId) {
+            if (player.playerId === data._id || player.playerId === data.playerId) {
                 let status = player.username = data.username;
                 player.standard_ratings = data.standard_ratings;
                 player.schess_ratings = data.schess_ratings;
@@ -247,20 +246,21 @@ export default class Room {
                 player.crazyhouse960_ratings = data.crazyhouse960_ratings;
                 player.fullhouse_ratings = data.fullhouse_ratings;
                 return status;
-            } 
+            }
         });
     }
-    
-    //checks to see if the player is in a specified room
+
+    // Checks to see if the player is in a specified room
     isPlayerInRoom(user: Player) {
-        if(!this._players || !user) {
+        if (!this._players || !user) {
             return false;
         }
+
         let playerFound = false;
         this._players.map((player) => {
-            if(user.playerId === player.playerId) {
+            if (user.playerId === player.playerId) {
                 playerFound = true;
-            } 
+            }
         });
         return playerFound;
     }
@@ -271,101 +271,97 @@ export default class Room {
         players.map((player) => {
             newPlayersList.push(player.getPlayer());
         });
-        
+
         return newPlayersList;
     }
-    
+
     get name() {
         return this._name;
     }
-    
+
     get game() {
         return this._game;
     }
-    
+
     getGameType() {
         return this._game.gameType;
     }
-    
-    //check to see if the game is ready to begin
+
+    // Checks to see if the game is ready to begin
     gameReady() {
         return this._game.gameReady();
     }
-    
+
     timeUpFunction() {
-        if(!this._name || !this.game) {
+        if (!this._name || !this.game) {
             return;
         }
         let turn = this.game.getTurn();
         this._game.updateColorTime(turn);
-        
-        //get the player that lost and remove them from the game
+
+        // Gets the player that lost and remove them from the game
         let loser = this.game.getPlayer(turn);
-        
-        if(!loser) return;
+
+        if (!loser) return;
         this.game.setPlayerOutByColor(turn);
-        
+
         this.addMessage(new TimeForfeitMessage(loser, null, this._name));
-        
-        //Check to see if the game has ended
-        if(this.game.gameOver()) {
+
+        // Checks to see if the game has ended
+        if (this.game.gameOver()) {
             this.game.endAndSaveGame(false);
-            
-            //sync the room again
+
+            // Syncs the room again
             this.io.to(this.name).emit('update-room-full', this.getRoomObjFull());
         } else {
-            //set the next turn
+            // Sets the next turn
             this.game.setNextTurn();
-            
-            // if white is an AI, start the engine
+
+            // If white is an AI, start the engine
             if (this.game.currentTurnPlayer() instanceof AI) {
                 this.game.engineGo();
             }
-            
-            //sync the room again
+
+            // Syncs the room again
             this.io.to(this.name).emit('update-room-full', this.getRoomObjFull());
-            
-            //start the next players timer
+
+            // Start the next players timer
             this.startTimer();
         }
-        
+
     }
-    
-    //initialize the timers
+
+    // Initializes the timers
     startTimer() {
-        
-        if(!this._name) {
+        // TODO: This may be where the timer issue is located
+        if (!this._name || !this.game) {
             return;
         }
-        
-        if(!this.game) {
-            return;
-        }
-        
+
         if (this.clock) {
             this.clock.pause();
         }
-        
-        //get players turn
+
+        // Get players turn
         let turn = this.game.getTurn();
-        
-        //get when the last move was made
+
+        // Gets when the last move was made
         let lastMoveTime = this.game.lastMoveTime;
-        
-        //get how much time has passed
+
+        // Gets how much time has passed
         let timeElapsed = Date.now() - lastMoveTime;
-        
-        if(!this.game.times) {
+
+        if (!this.game.times) {
             return;
         }
-        
-        //calculate how much time the current player has left
+
+        // Calculates how much time the current player has left
         let timeLeft = this.game.times[turn];
-        //start timing this person to check if they flag
+        // Starts timing this person to check if they flag
         this.clock.start(timeLeft);
     }
-    
-    //begin the game
+
+    // Begins the game
     startGame(connection: Connection) {
         let players: Player[] = [];
         if (this._game.white !== null) players.push(this._game.white);
@@ -373,10 +369,10 @@ export default class Room {
         if (this._game.black !== null) players.push(this._game.black);
         if (this._game.red !== null) players.push(this._game.red);
         this.addMessage(new GameStartedMessage(players, null, this._name));
-        
-        // if there are any AI players, add an engine instance to the game
+
+        // If there are any AI players, adds an engine instance to the game
         this._game.newEngineInstance(this._name, connection);
-        
+
         let roomObj: any = this.getRoomObjFull();
         this.io.to(this._name).emit(this.gameStartAction,
             {
@@ -384,16 +380,16 @@ export default class Room {
                 room: roomObj
             }
         );
-        
+
         this.game.startGame();
-        // if white is an AI, start the engine
+        // If white is an AI, starts the engine
         if (this._game.white instanceof AI) {
             this._game.engineGo();
         }
-        
+
         this.rematchOffered = false;
         if (this.roomMode === "match" && this.allowedPlayerIDs.length < this._game.numPlayers) {
-            // if no opponent was specified in match mode,
+            // If no opponent was specified in match mode,
             // the first person(s) to sit will be the match opponent
             players.forEach(player => {
                 if (!this.isAllowedPlayerID(player.playerId)) {
@@ -402,30 +398,30 @@ export default class Room {
             });
         }
     }
-    
+
     endGame() {
-        // pause the game
+        // Pauses the game
         this.io.to(this._name).emit('pause', {thread: this._name});
-        
+
     }
-    
+
     sendNewMove(message: any): void {
         this.io.to(this._name).emit(this.newMoveAction, message);
     }
-    
+
     makeMove(move: any, moveTime: number): void {
-        // make the move in the game logic
+        // Makes the move in the game logic
         this._game.makeMove(move, this.time.increment, moveTime);
-        
+
         let shouldClocksStart = this._game.getMoveHistory().length >= this._game.numPlayers;
-        if(this._game.gameStarted == true && shouldClocksStart) {
+        if (this._game.gameStarted == true && shouldClocksStart) {
             this.startTimer();
             this._game.lastMoveTime = Date.now();
         }
-        
+
         this.io.to(this.name).emit('update-room-full', this.getRoomObjFull());
-        
-        // // if it's a legal move, emit to other players
+
+        // If it's a legal move, emit to other players
         // let thread: string = this._name;
         // let fen: string = this._game.fen;
         // let lastTurn: string = this._game.lastTurn;
@@ -445,15 +441,15 @@ export default class Room {
         // console.log("four-new-move:", message);
         // this.sendNewMove(message);
     }
-    
+
     makeEngineMove(move) {
-        
+        // TODO: ?
     }
-    
+
     clearTimer() {
         this.clock.pause();
     }
-    
+
     removeAllPlayers() {
         if (this._game.white) {
             this._game.white = null;
@@ -468,7 +464,7 @@ export default class Room {
             this._game.red = null;
         }
     }
-    
+
     postGameEnd() {
         switch (this.roomMode) {
             case "match":
@@ -478,7 +474,7 @@ export default class Room {
         }
         this.io.to(this._name).emit('update-room-full', this.getRoomObjFull());
     }
-    
+
     rotatePlayers() {
         if (this._game.numPlayers === 2) {
             [this._game.white, this._game.black] = [this._game.black, this._game.white];
@@ -487,7 +483,7 @@ export default class Room {
                 [this._game.red, this._game.white, this._game.gold, this._game.black];
         }
     }
-    
+
     hasAIopponent() {
         if (this._game.numPlayers === 2) {
             return (
@@ -503,21 +499,21 @@ export default class Room {
             );
         }
     }
-    
+
     rematchOffer(senderId) {
         this.rematchOffered = true;
         this.rematchSenderId = senderId;
     }
-    
+
     startRematch(connection) {
         this.rotatePlayers();
         this.startGame(connection);
     }
-    
+
     scoreDraw(id) {
         this.playerScores[id] += 0.5;
     }
-    
+
     scoreWin(id) {
         this.playerScores[id] += 1;
     }

@@ -18,26 +18,29 @@ import {LOGIN_SUCCESS} from './actions/types';
 const middleware = [ReduxPromise, thunkMiddleware, voiceMiddleware, socketIoMiddleware];
 const composeEnhancers =
   typeof window === 'object' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
         actionsBlacklist: ['update-time']
     }) : compose;
+
 const store = createStore(reducers, composeEnhancers(
     applyMiddleware(...middleware)
 ));
+
 startSocketListeners(store);
 startVoiceListeners(store);
 
-//Get the authentication token and user profile if available
+// Gets the authentication token and user profile if available
 const token = localStorage.getItem('token');
 const profile = localStorage.getItem('profile');
 
-//The user has both a token and profile, consider them logged in
-if(token && profile) {
+// The user has both a token and profile, consider them logged in
+if (token && profile) {
     store.dispatch({
         type: LOGIN_SUCCESS
     });
 }
+
 ReactDOM.render(
     <Provider store={store}>
     <Router history={browserHistory} routes={routes}/>

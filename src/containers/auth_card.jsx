@@ -21,41 +21,41 @@ class AuthCard extends Component {
     onLoginSubmit(values) {
         this.props.loginUser(values);
     }
-    
+
     onAnonLogin(values) {
         this.props.anonLogin();
     }
 
     fbCallback(response) {
-        //send user credentials to server
+        // Sends user credentials to server
         this.props.fbLoginUser(response.accessToken);
     }
 
     googleCallback(response) {
         this.props.googleLoginUser(response.accessToken);
     }
-    
+
     componentWillMount() {
         this.refs.signupCol
     }
 
     render() {
         const { errorMessage } = this.props;
-        
+
         const opts = {
             height: '500px',
             width: '100%',
-            playerVars: { // https://developers.google.com/youtube/player_parameters 
+            playerVars: { // https://developers.google.com/youtube/player_parameters
                 autoplay: 0
             },
-            
+
         };
         return (
                 <Row>
                     <Col xs={12} sm={3} md={3} lg={3} ref="signupCol">
                         <h1 className="reg-login-header">Sign Up</h1>
                         <SignUpForm onSubmit={this.onSignUpSubmit.bind(this)} />
-                    
+
                     </Col>
                     <Col xs={0} sm={6} md={6} lg={6}>
                         <Row>
@@ -82,7 +82,7 @@ class AuthCard extends Component {
                         </Row>
                         <Row>
                             <Col sm={12}>
-                                
+
                                 <Button
                                     onClick={this.onAnonLogin.bind(this)}
                                     bsStyle="info"
@@ -90,7 +90,7 @@ class AuthCard extends Component {
                                     id="anonLoginButton">
                                     Play Anonymously
                                 </Button>
-                                
+
                             </Col>
                         </Row>
                         <Row>
@@ -103,7 +103,7 @@ class AuthCard extends Component {
                                         className="landing-video"
                                     />
                                 </div>
-                                
+
                                 <div className="text-center tos-privacy-container">
                                     <Link to="/tosandprivacy" >Terms of Service and Privacy Policy</Link>
                                 </div>
@@ -113,7 +113,7 @@ class AuthCard extends Component {
                     <Col xs={12} sm={3} md={3} lg={3} >
                         <h1 className="reg-login-header">Login</h1>
                         <LoginForm onSubmit={this.onLoginSubmit.bind(this)} />
-        
+
                     </Col>
                 </Row>
 

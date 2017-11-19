@@ -23,7 +23,7 @@ export default class FullhouseChess extends Game {
     connection: Connection;
     ratings_type: string = 'fullhouse_ratings';
     gameClassDB: any = FullhouseChessDB;
-    
+
     constructor(io: Object, roomName:string, time: any, connection: Connection) {
         super();
         this.io = io;
@@ -37,21 +37,21 @@ export default class FullhouseChess extends Game {
         };
         this.connection = connection;
     }
-    
+
     setPlayerResignByPlayerObj(player: Player) {
         if(this.white && this.white.playerId === player.playerId) {
             this.white.alive = false;
         }
-        
+
         if(this.black && this.black.playerId === player.playerId) {
             this.black.alive = false;
         }
     }
-    
+
     move() {
-        
+        // TODO: ?
     }
-    
+
     getGame() {
         return {
             numPlayers: this.numPlayers,
@@ -65,20 +65,20 @@ export default class FullhouseChess extends Game {
             gameStarted: this.gameStarted,
         };
     }
-    
-    
+
+
     removePlayerFromAllSeats(player: Player) {
-        if(this.white && this.white.playerId === player.playerId) {
+        if (this.white && this.white.playerId === player.playerId) {
             this.white = null;
         }
-        
-        if(this.black && this.black.playerId === player.playerId) {
+
+        if (this.black && this.black.playerId === player.playerId) {
             this.black = null;
         }
     }
-    
+
     removePlayer(color: string) {
-        switch(color.charAt(0)) {
+        switch (color.charAt(0)) {
             case 'w':
                 this.white = null;
                 break;
@@ -94,13 +94,13 @@ export default class FullhouseChess extends Game {
             this.white !== null &&
             this.black !== null);
     }
-    
+
     outColor(): string { return null; }
-    
+
     newEngineInstance(roomName: string, io: any) {
         // this.engineInstance = new TwoEngine(roomName, this.time.increment, this.connection);
     }
-    
+
     startGame() {
         this.gameStarted = true;
         this.white.alive = true;
@@ -109,11 +109,11 @@ export default class FullhouseChess extends Game {
         this.gameRulesObj = FullhouseChessGame();
         this.moveHistory = [];
     }
-    
-    
+
+
     setPlayerOutByColor(color: string) {
         let playerOut = null;
-        switch(color.charAt(0)) {
+        switch (color.charAt(0)) {
             case 'w':
                 this.white.alive = false;
                 playerOut = this.white;

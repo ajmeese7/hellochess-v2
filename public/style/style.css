@@ -257,7 +257,7 @@ body .container-fluid {
 }
 
 .chatbox-message-list-wrapper {
-    
+
     margin: 5px;
     height: 100%;
     display: flex;
@@ -706,7 +706,7 @@ tr:hover {
 }
 
 
-/*For leaderboard*/
+/* For leaderboard */
 .ribbon {
  font-size: 18px !important;
  font-family: Verdana, Geneva, sans-serif;
@@ -827,7 +827,7 @@ tr:hover {
 .mic-status .fa-microphone-slash {
     color: #cc0000
 ;
-    
+
 }
 
 .mic-status:hover {
@@ -836,7 +836,7 @@ tr:hover {
 /* PGN viewer */
 
 .pgn-viewer {
-    
+
 }
 
 .pgn-move-list {
@@ -1228,7 +1228,7 @@ div.schess-rook-toggle {
 
 .btn-preset-row {
     padding-top: 20px;
-    
+
 }
 
 .match-searching-row {
@@ -1318,7 +1318,7 @@ div.schess-rook-toggle {
 }
 
 /* Fix for react-select menu option opacity making it look weird
-   on the new game modal*/
+   on the new game modal */
 .Select-option.is-selected {
   background-color: #f5faff!important;
 }

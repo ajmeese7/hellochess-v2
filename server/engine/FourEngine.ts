@@ -13,11 +13,11 @@ export default class FourEngine extends Engine {
     }
     onBestMove(data) {
         var str = ab2str(data);
-        if(str.indexOf("bestmove") !== -1) {
+        if (str.indexOf("bestmove") !== -1) {
             let score = null, pv = null;
-            
+
             let turn = null;
-            
+
             switch(this.turn) {
                 case 'w':
                     turn = 'white';
@@ -46,51 +46,49 @@ export default class FourEngine extends Engine {
             };
 
             // console.log("FourEngine move:", compMove);
-            
+
             let roomName = this.roomName;
             let room: Room = this.connection.getRoomByName(roomName);
-            if(!room) {
-                return;
-            }
+            if (!room) return;
             let game: Game = room.game;
             let move = data.move;
             setTimeout(() => {
                 room.makeMove(compMove, Date.now());
             }, 400);
-            
-            
+
+
             return;
         }
     }
-    
+
     setPosition(fen) {
-        if(this.engine) {
+        if (this.engine) {
             this.engine.stdin.write(
                 "position fen " + fen.split('-')[0] + "\n"
             );
         }
-        
+
     }
-    
+
     setTurn(turnColor) {
         this.turn = turnColor;
         let turn = this.colorToTurnNumber(turnColor);
-        if(this.engine) {
+        if (this.engine) {
             this.engine.stdin.write("turn "+ turn + "\n");
         }
     }
-    
+
     setOut(colorOut) {
         let out = this.colorToTurnNumber(colorOut);
-        if(this.engine) {
+        if (this.engine) {
             this.engine.stdin.write("out " + out + "\n");
         }
         this.numOut += 1;
     }
-    
+
     adjustDepth(timeLeft, level) {
         let depth = this.depth;
-        switch(level) {
+        switch (level) {
             case 1:
                 depth = 3;
                 break;
@@ -107,31 +105,32 @@ export default class FourEngine extends Engine {
                 depth = 6;
                 break;
         }
-        if (timeLeft < 1000) { // 1 second
+
+        if (timeLeft < 1000) {          // 1 second
             depth = Math.min(1, depth);
-        } else if (timeLeft < 2000) { // 2 seconds
+        } else if (timeLeft < 2000) {   // 2 seconds
             depth = Math.min(2, depth);
-        } else if (timeLeft < 3000) { // 3 seconds
+        } else if (timeLeft < 3000) {   // 3 seconds
             depth = Math.min(3, depth);
-        } else if (timeLeft < 10000) { // 10 seconds
+        } else if (timeLeft < 10000) {  // 10 seconds
             depth = Math.min(4, depth);
         } else if (timeLeft < 120000) { // 2 mins
             depth = Math.min(5, depth);
         }
-		return depth;
+		    return depth;
     }
-    
+
     go(timeLeft, level) {
         this.timeLeft = timeLeft;
         let depth = this.depth;
         depth = this.adjustDepth(timeLeft, level);
-        if(this.mode == 0) {
+        if (this.mode == 0) {
             // console.log("[FourEngine "+this.roomName+"]", "skill level:", level, "depth:", depth);
             if (this.engine) this.engine.stdin.write("go depth " + depth + "\n");
         } else {
             let goString = "go " + "depth 4" + "\n";
-            if(this.engine) this.engine.stdin.write(goString);
+            if (this.engine) this.engine.stdin.write(goString);
         }
-        
+
     }
 }

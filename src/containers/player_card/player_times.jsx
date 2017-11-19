@@ -38,7 +38,7 @@ class PlayerTimes extends Component {
         }
     }
 
-    // returns the order of the player cards when the game hasn't started
+    // Returns the order of the player cards when the game hasn't started
     determineSitOrder(room, profile) {
         let renderOrder = [];
         switch (room.game.gameType) {
@@ -52,7 +52,7 @@ class PlayerTimes extends Component {
         return renderOrder;
     }
 
-    // returns the order of the player cards when the game has started
+    // Returns the order of the player cards when the game has started
     determinePlayingOrder(room, profile) {
         let renderOrder = [];
         const white = room.game.white;
@@ -63,9 +63,10 @@ class PlayerTimes extends Component {
             switch (room.game.gameType) {
                 case "four-player":
                     renderOrder = [this.renderGold, this.renderBlack, this.renderRed, this.renderWhite];
-                    if(!black) {
+                    if (!black) {
                         break;
                     }
+
                     switch (profile._id) {
                         case black.playerId:
                             renderOrder = [this.renderRed, this.renderWhite, this.renderGold, this.renderBlack];
@@ -84,9 +85,10 @@ class PlayerTimes extends Component {
                 case "standard":
                     default:
                         renderOrder = [this.renderBlack, this.renderWhite];
-                        if(!black) {
+                        if (!black) {
                             break;
                         }
+
                         switch (profile._id) {
                             case black.playerId:
                                 renderOrder = [this.renderWhite, this.renderBlack];
@@ -95,6 +97,7 @@ class PlayerTimes extends Component {
                             default:
                                 break;
                         }
+
                         break;
             }
         } catch (err) {
@@ -110,8 +113,8 @@ class PlayerTimes extends Component {
             return null;
         }
         let room = activeThread;
-        // determine the vertical ordering of the cards.
-        // current player goes on the bottom.
+        // Determines the vertical ordering of the cards.
+        // The current player goes on the bottom.
         let renderOrder = [];
         if (activeThread.game.gameStarted === true) {
             renderOrder = this.determinePlayingOrder(room, profile);
@@ -125,7 +128,7 @@ class PlayerTimes extends Component {
         let {activeThread, openThreads, profile} = this.props;
         activeThread = openThreads[activeThread];
         if (!openThreads || !activeThread) {
-            return <div></div>
+            return (<div></div>);
         }
         let cardRenderers = this.determineCardOrder();
         let renderedCards = cardRenderers.map((cardRenderer, index) => {

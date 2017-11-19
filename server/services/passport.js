@@ -11,7 +11,7 @@ const localOptions = {
     usernameField: 'email'
 }
 
-//Login strategy, verifies auth token.
+// Login strategy, verifies auth token.
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
     User.findOne({email}).select('+password')
     .then((user) => {
@@ -35,7 +35,7 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
     });
 });
 
-//options for JWT strategy
+// Options for JWT strategy
 const jwtOptions= {
     jwtFromRequest: ExtractJwt.fromHeader('x-auth'),
     secretOrKey: config.secret
@@ -44,11 +44,11 @@ const jwtOptions= {
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
 
     User.findById(payload.sub, function(err, user) {
-        if(err) {
+        if (err) {
             return done(err, false);
         }
 
-        if(user) {
+        if (user) {
             done(null, user);
         } else {
             done(null, false);
@@ -61,13 +61,11 @@ const { clientID, clientSecret, callbackURL, profileFields } = config.facebookAu
 const FBLogin = new FacebookTokenStrategy({ clientID, clientSecret, profileFields },
     function(accessToken, refreshToken, profile, done) {
         User.findOne({'socialProvider.id': profile.id}, (err, user) => {
-            if(err) {
+            if (err) {
                 return done()
-            }
-            if(user) {
+            } else if (user) {
                 return done(null, user);
-            }
-            else {
+            } else {
                 let newUser = new User();
 
                 newUser.socialProvider.name = 'facebook',
@@ -79,7 +77,7 @@ const FBLogin = new FacebookTokenStrategy({ clientID, clientSecret, profileField
                 newUser.social.token = accessToken;
 
                 newUser.save((err) => {
-                    if(err) {
+                    if (err) {
                         console.log(err)
                     }
                     return done(null, newUser);
@@ -97,13 +95,11 @@ const GoogleLogin = new GooglePlusTokenStrategy({
     passReqToCallback: true },
     function(req, accessToken, refreshToken, profile, done) {
         User.findOne({'socialProvider.id': profile.id}, (err, user) => {
-            if(err) {
+            if (err) {
                 return done()
-            }
-            if(user) {
+            } else if(user) {
                 return done(null, user);
-            }
-            else {
+            } else {
                 let newUser = new User();
 
                 newUser.socialProvider.name = profile.provider
@@ -115,7 +111,7 @@ const GoogleLogin = new GooglePlusTokenStrategy({
                 newUser.social.token = accessToken;
 
                 newUser.save((err) => {
-                    if(err) {
+                    if (err) {
                         console.log(err)
                     }
                     return done(null, newUser);
@@ -133,7 +129,7 @@ passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
 
-//tell passport to use Strategies
+// Tells passport to use Strategies
 passport.use(jwtLogin);
 passport.use(localLogin);
 passport.use(FBLogin);

@@ -9,17 +9,17 @@ exports.signup = (req, res, next) => {
         'password'
     ]);
 
-    if(!body.email) {
+    if (!body.email) {
         return res.status(400).send("Email is required");
     }
 
-    if(!body.password) {
+    if (!body.password) {
         return res.status(400).send("Password is required");
     }
 
     const user = new User(body);
 
-    //User does NOT exist, save it to DB
+    // User does NOT exist, save it to DB
     user.save().then(() => {
         return user.generateAuthToken();
     }).then((token) => {

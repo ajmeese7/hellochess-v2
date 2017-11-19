@@ -184,7 +184,7 @@ var FourChess = function (fen) {
                 otherInfo += ' bl';
             }
         }
-
+        // Red castling permissions
         if (!red_moved_king) {
             if (!red_moved_rt) {
                 otherInfo += ' rr';
@@ -350,7 +350,7 @@ var FourChess = function (fen) {
         console.log(str);
     }
 
-    function printBoardState( state) {
+    function printBoardState(state) {
         var str = '';
         for (var i = 0; i < state.length; i++) {
             str += (state[i]) + ' ';
@@ -431,10 +431,10 @@ var FourChess = function (fen) {
 
     function isSquareValid(square) {
         var invalid_squares =[
-                'a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3',     //bottom left
-                'a14', 'b14', 'c14', 'a13', 'b13', 'c13', 'a12', 'b12', 'c12',   //top left
-                'n14', 'm14', 'l14', 'n13', 'm13', 'l13', 'n12', 'm12', 'l12',  // top right
-                'n1', 'n2', 'n3', 'm1', 'm2', 'm3', 'l1', 'l2', 'l3'];      //bottom right
+                'a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3',          // bottom left
+                'a14', 'b14', 'c14', 'a13', 'b13', 'c13', 'a12', 'b12', 'c12', // top left
+                'n14', 'm14', 'l14', 'n13', 'm13', 'l13', 'n12', 'm12', 'l12', // top right
+                'n1', 'n2', 'n3', 'm1', 'm2', 'm3', 'l1', 'l2', 'l3'];         // bottom right
 
         for (var i = 0; i < invalid_squares.length; i++) {
             if (square == invalid_squares[i]) {
@@ -451,10 +451,10 @@ var FourChess = function (fen) {
         }
 
         var invalid_squares =[
-                        'a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3',     //bottom left
-                        'a14', 'b14', 'c14', 'a13', 'b13', 'c13', 'a12', 'b12', 'c12',   //top left
-                        'n14', 'm14', 'l14', 'n13', 'm13', 'l13', 'n12', 'm12', 'l12',  // top right
-                        'n1', 'n2', 'n3', 'm1', 'm2', 'm3', 'l1', 'l2', 'l3'];      //bottom right
+                        'a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3',          // bottom left
+                        'a14', 'b14', 'c14', 'a13', 'b13', 'c13', 'a12', 'b12', 'c12', // top left
+                        'n14', 'm14', 'l14', 'n13', 'm13', 'l13', 'n12', 'm12', 'l12', // top right
+                        'n1', 'n2', 'n3', 'm1', 'm2', 'm3', 'l1', 'l2', 'l3'];         // bottom right
         for (var i = 0; i < squares.length; i++) {
             for (var j = 0; j < invalid_squares.length; j++) {
                 if (typeof squares[i] == 'undefined')  {
@@ -565,7 +565,7 @@ var FourChess = function (fen) {
 
     function generateRankMoves(toSquare, rank, alpha, king) {
         var posSquaresInRank = (king) ? 1 : 14 - rank;
-        //count the number of squares left before a piece hit
+        // Counts the number of squares left before a piece hit
         for (var i = 1; i < posSquaresInRank + 1; i++) {
             var square = alpha + (rank + i);
             if (isSquareEmpty(square)) {
@@ -1858,6 +1858,7 @@ var FourChess = function (fen) {
             if (move.piece && SQUARE_STATUS[move.piece] !== BOARD[SQUARES[move.from]]) {
                 return null;
             }
+
             var options = generateMovesForSquare(move.from);
             if (options == null) {
                 return null;
@@ -1874,7 +1875,7 @@ var FourChess = function (fen) {
             BOARD = BOARD_COPY.slice();
 
             // Checks to see if the player is in check
-            if (inCheck() {
+            if (inCheck()) {
                 return null;
             }
 

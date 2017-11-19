@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import {Button} from 'react-bootstrap';
 
-//The input where the users can send messages to a chat
+// The input where users can send messages to a chat
 class MessageSend extends Component {
 
     constructor(props) {
@@ -23,7 +23,7 @@ class MessageSend extends Component {
 
     onMessageSend(event) {
         const msg = this.state.msg;
-        if(msg.length < 1) {
+        if (msg.length < 1) {
             event.preventDefault();
             return;
         }

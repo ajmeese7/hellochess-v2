@@ -17,7 +17,7 @@ class EmptyCard extends Component {
             20: "Very Hard"
         };
     }
-    
+
     onSit(event) {
         let obj = {};
         obj.profile = this.props.profile;
@@ -67,13 +67,13 @@ class EmptyCard extends Component {
         obj.color = this.props.color;
         this.props.sitDownComputer(obj);
     }
-    
+
     renderPlayButtons() {
         switch (this.props.gameType) {
             case 'schess':
                 return (
                     <Row>
-                        <SplitButton id={"player-button-" + this.props.colorClass} 
+                        <SplitButton id={"player-button-" + this.props.colorClass}
                             onClick={this.onSit} title="Play" bsStyle="info">
                             <MenuItem eventKey="1" onClick={this.aiSit.bind(this, 15)} >
                                 Computer
@@ -92,7 +92,7 @@ class EmptyCard extends Component {
             default:
                 return (
                     <Row>
-                        <SplitButton id={"player-button-" + this.props.colorClass} 
+                        <SplitButton id={"player-button-" + this.props.colorClass}
                             onClick={this.onSit} title="Play" bsStyle="info">
                             <MenuItem eventKey="1" onClick={this.aiSit.bind(this, 1)} >
                                 Very Easy AI
@@ -114,7 +114,7 @@ class EmptyCard extends Component {
                 );
         }
     }
-    
+
     renderPlayButtonsBasedOnRoomMode() {
         if (this.props.roomMode === "match") {
             if (this.props.allowedPlayerIDs.length < this.props.room.game.numPlayers ||
@@ -131,9 +131,10 @@ class EmptyCard extends Component {
     render() {
         const {room} = this.props;
         let time = room.time;
-        if(!time) {
-            return <div></div>
+        if (!time) {
+            return (<div></div>);
         }
+
         return (
             <Panel className={"player-card " + this.props.colorClass}>
                 {this.renderPlayButtonsBasedOnRoomMode()}
