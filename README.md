@@ -1,9 +1,7 @@
 # hellochess
 
 Setup:
-Create a config directory inside of the project root. Inside that folder create a config.js file.
-
-Place similar content as below inside config.js:
+Modify config.js to look like below:
 
     module.exports = {
         secret: 'placeRandomStringHere',
@@ -23,9 +21,9 @@ Place similar content as below inside config.js:
 `npm install`
 
 
-Make sure you have MongoDB installed and run
+Make sure you have MongoDB installed and run the following command from the hellochess-v2 folder:
 
-`mongod`
+`mongod --config mongodb.conf --dbpath data`
 
 For development purposes I run the webpack dev server on localhost:8080
 to run the webpack dev server:
