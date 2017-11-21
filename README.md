@@ -3,7 +3,7 @@
 Setup:
 In the `config` folder, add a file named `config.js` with the following content:
 
-  `module.exports = {
+    module.exports = {
       secret: 'placeRandomStringHere',
 
       facebookAuth: {
@@ -23,7 +23,7 @@ In the `config` folder, add a file named `config.js` with the following content:
       staging: '',
       staging2: '',
       local: ''
-  }`
+    }
 
 Of course, you need to fill in the empty Facebook and Google fields with actual
 information. For googleAuth, go [here](https://developers.google.com/identity/sign-in/web/devconsole-project)
