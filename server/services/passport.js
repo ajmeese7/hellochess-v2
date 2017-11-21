@@ -3,7 +3,7 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const FacebookTokenStrategy = require('passport-facebook-token');
 const GooglePlusTokenStrategy = require('passport-google-plus-token');
-const {User} = require('../models/user');
+const User = require('../models/user');
 const config  = require('../../config/config');
 const LocalStrategy = require('passport-local');
 
@@ -15,15 +15,14 @@ const localOptions = {
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
     User.findOne({email}).select('+password')
     .then((user) => {
-        if(!user) {
+        if (!user) {
             done(null, false);
         }
 
         user.comparePassword(password, (err, isMatch) => {
-            if(err) {
+            if (err) {
                 return done(err);
-            }
-            if(!isMatch) {
+            } else if (!isMatch) {
                 return done(null, false);
             }
 
@@ -46,9 +45,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
     User.findById(payload.sub, function(err, user) {
         if (err) {
             return done(err, false);
-        }
-
-        if (user) {
+        } else if (user) {
             done(null, user);
         } else {
             done(null, false);
@@ -62,7 +59,7 @@ const FBLogin = new FacebookTokenStrategy({ clientID, clientSecret, profileField
     function(accessToken, refreshToken, profile, done) {
         User.findOne({'socialProvider.id': profile.id}, (err, user) => {
             if (err) {
-                return done()
+                return done();
             } else if (user) {
                 return done(null, user);
             } else {
@@ -97,7 +94,7 @@ const GoogleLogin = new GooglePlusTokenStrategy({
         User.findOne({'socialProvider.id': profile.id}, (err, user) => {
             if (err) {
                 return done()
-            } else if(user) {
+            } else if (user) {
                 return done(null, user);
             } else {
                 let newUser = new User();

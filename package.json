@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "server": "nodemon -e js,ts --exec ./node_modules/.bin/ts-node -- ./server/server.ts",
+    "server": "PORT=3000 nodemon -e js,ts --exec ./node_modules/.bin/ts-node -- ./server/server.ts",
     "postinstall": "webpack -p",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch"
@@ -21,7 +21,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
+    "babel-preset-react": "^6.1.18",
     "chai": "^3.5.0",
     "chai-jquery": "^2.0.0",
     "css-loader": "^0.27.3",

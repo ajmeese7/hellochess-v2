@@ -75,16 +75,15 @@ class GameHistory extends Component {
             </ListGroupItem>
         );
     }
-    
+
     render() {
         let room = this.props.openThreads[this.props.activeThread];
-        if(!this.props.profile || !this.props.recentGames.standard 
+        if (!this.props.profile || !this.props.recentGames.standard
             || !this.props.recentGames.schess || !this.props.recentGames.crazyhouse
             || !this.props.recentGames.crazyhouse960) {
-            return <div>
-            </div>
+            return <div></div>;
         }
-        
+
         return (
             <div>
                 <PanelGroup accordion>

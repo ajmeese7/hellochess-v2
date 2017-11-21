@@ -14,23 +14,21 @@ export const DARK_SQUARE_PREMOVE_COLOR = '#aa0000';
 export const LIGHT_SQUARE_PREMOVE_COLOR = '#ff0000';
 
 class BoardWrapper extends Component {
-    
+
     shouldComponentUpdate(nextProps, nextState) {
         return (
             this.props.room != nextProps.room ||
             Object.keys(this.props.openThreads).length != Object.keys(nextProps.openThreads).length
-           
         );
-            
     }
 
     render() {
         const {room} = this.props;
-        
-        if(!room || !room.game.gameType) {
+
+        if (!room || !room.game.gameType) {
             return <div></div>
         }
-        
+
         let gameType = room.game.gameType;
         let roomName = room.room.name;
 
@@ -149,12 +147,13 @@ class BoardWrapper extends Component {
 }
 
 function mapStateToProps(state) {
-    if(state.openThreads[state.activeThread]) {
+    if (state.openThreads[state.activeThread]) {
         let gameType = null;
         let room = state.openThreads[state.activeThread];
-        if(state.openThreads[state.activeThread].gameType) {
+        if (state.openThreads[state.activeThread].gameType) {
             gameType = state.openThreads[state.activeThread].game.gameType
         }
+
         return {
             gameType: gameType,
             room: room,
