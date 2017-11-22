@@ -46,7 +46,7 @@ the Typescript and ES6 code. The backend runs on localhost:3000, which is starte
 
 `npm run server`
 
-If you experience an ENOSPC error when running the above command, run:
+If you experience an ENOSPC error or an inotify limit message when running the above command, run:
 
 `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
 
