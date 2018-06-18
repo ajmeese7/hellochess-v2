@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, {
     Component
 } from 'react';
@@ -8,7 +9,7 @@ import {
 export default function(ComposedComponent) {
     class Authentication extends Component {
         static contextTypes = {
-            router: React.PropTypes.object
+            router: PropTypes.object
         }
 
         componentWillMount() {
