@@ -5,7 +5,7 @@
   "main": "public/index.jsx",
   "repository": "https://github.com/ajmeese7/hellochess-v2",
   "scripts": {
-    "datapath": "mongod --config mongodb.conf --dbpath data",
+    "datapath": "mongod --config mongodb.conf --dbpath ./data",
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "server": "PORT=3000 nodemon -e js,ts --exec ./node_modules/.bin/ts-node -- ./server/server.ts",
     "postinstall": "webpack -p",

@@ -38,7 +38,8 @@ To get all the packages on your system properly, run:
 
 `npm install`
 
-Make sure you have MongoDB installed and run:
+Make sure you have MongoDB installed, create a folder in the main repository
+labeled `data`, and run:
 
 `npm run datapath`
 
@@ -55,6 +56,23 @@ To start the webpack dev server, run:
 Visit `localhost:8080` and hope everything works!
 
 ### Troubleshooting
+##### MongoDB
+If you experience problems running `npm run datapath` or `npm run server`, it may be because there
+is a problem with your Mongo install. Create a configuration file by running:
+
+`sudo nano /etc/systemd/system/mongodb.service`
+
+Start the service by running:
+
+`sudo systemctl start mongodb`
+
+Check the service:
+`sudo systemctl status mongodb`
+
+And make the service permenant:
+`sudo systemctl enable mongodb`
+
+##### Other
 If you experience an ENOSPC error or an inotify limit message when running the above command, run:
 
 `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
