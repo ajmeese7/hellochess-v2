@@ -30,6 +30,26 @@ information. For googleAuth, go [here](https://developers.google.com/identity/si
 and follow the instructions. For facebookAuth, get the information by registering an app
 [here](https://developers.facebook.com/docs/apps/register).
 
+### Facebook
+When creating the Facebook app, I just pasted an HTML file with the following contents
+on my web server and linked to it for the privacy policy:
+
+  ```
+  <html>
+    <body>
+      <p>As far as I know, this project doesn't take any of your information.</p>
+    </body>
+  </html>
+  ```
+
+If you don't have access to a web server, simply look up some guides to follow. There's
+some information on StackOverflow that I saw in my search.
+
+For the callbackURL field, I used `http://localhost:8080/auth/facebook/callback`. I still
+don't know if that works, but so far in my development process it hasn't given me any
+problems.
+
+### Installation
 **NOTE**: All commands below should be ran from a terminal in the hellochess-v2 folder.
 I have run all these on Linux and cannot promise that they will work on any other
 OS. If you have any problems, please raise an issue and I will see what I can do.
