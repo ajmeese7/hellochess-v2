@@ -40,22 +40,23 @@ To get all the packages on your system properly, run:
 
 Make sure you have MongoDB installed and run:
 
-`mongod --config mongodb.conf --dbpath data`
+`npm run datapath`
 
 The below command properly runs the files with ts-node, which will be able to interpret
 the Typescript and ES6 code. The backend runs on `localhost:3000`, which is started by running:
 
 `npm run server`
 
-If you experience an ENOSPC error or an inotify limit message when running the above command, run:
-
-`echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
-
-then try again. If that doesn't work, try rebooting your system.
-
 For development purposes I run the webpack dev server on localhost:8080.
 To start the webpack dev server, run:
 
 `npm start`
 
-Visit localhost:8080 and hope everything works!
+Visit `localhost:8080` and hope everything works!
+
+### Troubleshooting
+If you experience an ENOSPC error or an inotify limit message when running the above command, run:
+
+`echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
+
+then try again. If that doesn't work, try rebooting your system.
