@@ -13,7 +13,7 @@ module.exports = {
         filename: './bundle.js'
     },
     module: {
-        loaders: [{
+        rules: [{
             exclude: /(node_modules|bower_components|config)/,
             loader: 'babel-loader',
             query: {
