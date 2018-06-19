@@ -30,7 +30,7 @@ information. For googleAuth, go [here](https://developers.google.com/identity/si
 and follow the instructions. For facebookAuth, get the information by registering an app
 [here](https://developers.facebook.com/docs/apps/register).
 
-### Facebook
+## Facebook
 When creating the Facebook app, I just pasted an HTML file with the following contents
 on my web server and linked to it for the privacy policy:
 
@@ -49,7 +49,7 @@ For the callbackURL field, I used `http://localhost:8080/auth/facebook/callback`
 don't know if that works, but so far in my development process it hasn't given me any
 problems.
 
-### Installation
+## Installation
 **NOTE**: All commands below should be ran from a terminal in the hellochess-v2 folder.
 I have run all these on Linux and cannot promise that they will work on any other
 OS. If you have any problems, please raise an issue and I will see what I can do.
@@ -75,8 +75,8 @@ To start the webpack dev server, run:
 
 Visit `localhost:8080` and hope everything works!
 
-### Troubleshooting
-##### MongoDB
+## Troubleshooting
+#### MongoDB
 If you experience problems running `npm run datapath` or `npm run server`, it may be because there
 is a problem with your Mongo install. Create a configuration file by running:
 
@@ -92,7 +92,7 @@ Check the service:
 And make the service permenant:
 `sudo systemctl enable mongodb`
 
-##### Other
+#### Other
 If you experience an ENOSPC error or an inotify limit message when running the above command, run:
 
 `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
